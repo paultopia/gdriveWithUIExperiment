@@ -8,18 +8,26 @@
 
 import Foundation
 
-public func setDefaults(client: String, secret:String){
+public struct Credential {
     let defaults = UserDefaults.standard
-    defaults.set(client, forKey: "client")
-    defaults.set(secret, forKey: "secret")
+    var label: String
+    
+    init(_ l: String) {
+        label = l
+    }
+    
+    public func set(_ value: String){
+        defaults.set(value, forKey: label)
+    }
+    
+    public func get() -> String? {
+        return defaults.string(forKey: label)
+    }
+
 }
 
-public func getClient() -> String? {
-    let defaults = UserDefaults.standard
-    return defaults.string(forKey: "client")
-}
+public let clientKey = Credential("client key")
+public let authCode = Credential("authorization code")
+public let accessToken = Credential("access token")
+public let refreshToken = Credential("refresh token")
 
-public func getSecret() -> String? {
-    let defaults = UserDefaults.standard
-    return defaults.string(forKey: "secret")
-}

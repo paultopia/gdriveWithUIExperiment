@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDocumentTypes</key>
-	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
@@ -26,10 +24,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>CFBundleURLName</key>
-			<string>com.paultopia.custom</string>
+			<string>io.gowder.experiment</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>pgexperiment</string>
+				<string>io.gowder.experiment</string>
 			</array>
 		</dict>
 	</array>

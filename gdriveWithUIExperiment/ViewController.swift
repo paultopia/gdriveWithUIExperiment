@@ -11,11 +11,13 @@ import Cocoa
 class ViewController: NSViewController {
 
     @IBOutlet var clientID: NSTextField!
-    @IBOutlet var clientSecret: NSTextField!
     @IBAction func saveCreds(_ sender: Any) {
-        setDefaults(client: clientID.stringValue, secret: clientSecret.stringValue)
-        print(getClient()!)
-        fetch(url: "https://gowder.io", callback: {print($0)})
+        clientKey.set(clientID.stringValue)
+        print(clientKey.get()!)
+
+    }
+    @IBAction func makeAuthRequest(_ sender: Any) {
+        print("not implemented")
     }
     
     override func viewDidLoad() {

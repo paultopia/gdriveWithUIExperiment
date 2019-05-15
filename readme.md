@@ -8,6 +8,9 @@ See general instructions for the oauth flow [here](https://developers.google.com
 
 It looks like there are two basic ways to have the oauth flow call back into an app once users have authorized it: either spin up a web server on localhost, or set up a custom url scheme. The google docs are highly unclear as to how to give it the correct address to talk to either way---it looks like there should be a place to do so, but I can't find it.
 
-2.  Tutorial for setting up a custom url scheme: [this looks good](https://css-tricks.com/create-url-scheme/).  I used `pgexperiment` as the URI scheme, so it should be possible to go to, e.g., `pgexperiment://foo.bar` in a browser and get input into the app. 
+2.  Tutorial for setting up a custom url scheme: [this looks good](https://css-tricks.com/create-url-scheme/).  I used `io.gowder.experiment` as the URI scheme, so it should be possible to go to, e.g., `io.gowder.experiment://foo.bar` in a browser (works in safari at least, chrome has the nasty habit of interpreting it as a search) and get input into the app. 
 
 3.  Put your key and secret into the nice spots on the application designated for that purpose.  Where they will be stored in [user defaults](https://developer.apple.com/documentation/foundation/userdefaults) even though apparently that's insecure?  works for experimentation tho.
+
+4.  In order to make network requests, make sure that the sandbox is turned on and it's set to make outgoing connections.  I'm not sure if this happens automatically when you clone the xcode project (is this something turned on in info.plist?  WHO KNOWS!). [see also](https://stackoverflow.com/a/49892564/4386239).
+
