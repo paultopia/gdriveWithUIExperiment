@@ -6,7 +6,7 @@
 //  Copyright © 2019 Paul Gowder. All rights reserved.
 //
 
-import Foundation
+import AppKit
 
 public func createTempHTMLFile(contents: String) -> URL {
     let fileManager = FileManager.default
@@ -20,4 +20,12 @@ public func createTempHTMLFile(contents: String) -> URL {
     
     print(contentsOfFile)
     return dest
+}
+
+public func openTempHTMLFile(_ url: URL){
+    NSWorkspace.shared.open([url],
+                            withAppBundleIdentifier: "com.apple.Safari",
+                            options: NSWorkspace.LaunchOptions.default,
+                            additionalEventParamDescriptor: nil,
+                            launchIdentifiers: nil)
 }

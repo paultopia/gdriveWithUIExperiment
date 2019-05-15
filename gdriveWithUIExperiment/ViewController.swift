@@ -25,7 +25,7 @@ class ViewController: NSViewController {
         // test something here.
         
         let tempHTMLFileURL = createTempHTMLFile(contents: "<html><body>TEST!</body></html>")
-        print(tempHTMLFileURL)
+        openTempHTMLFile(tempHTMLFileURL)
     }
     
     
