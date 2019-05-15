@@ -15,6 +15,7 @@ class ViewController: NSViewController {
     @IBAction func saveCreds(_ sender: Any) {
         setDefaults(client: clientID.stringValue, secret: clientSecret.stringValue)
         print(getClient()!)
+        fetch(url: "https://gowder.io", callback: {print($0)})
     }
     
     override func viewDidLoad() {
