@@ -26,6 +26,7 @@ class ViewController: NSViewController {
         
         let tempHTMLFileURL = createTempHTMLFile(contents: "<html><body>TEST!</body></html>")
         openTempHTMLFile(tempHTMLFileURL)
+        deleteTempHTMLFile(tempHTMLFileURL)
     }
     
     

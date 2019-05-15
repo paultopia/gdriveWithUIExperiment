@@ -16,5 +16,5 @@ public func askForAuthorization(){ // returns the entire freaking web page as a 
                    "redirect_uri": "io.gowder.experiment:/oauth",
                    "response_type": "code",
                    "scope": "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata"]
-    fetch(url: endpoint, queries: queries, callback: {print($0)})
+    fetch(url: endpoint, queries: queries, callback: displayReceivedPage)
 }

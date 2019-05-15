@@ -29,3 +29,15 @@ public func openTempHTMLFile(_ url: URL){
                             additionalEventParamDescriptor: nil,
                             launchIdentifiers: nil)
 }
+
+public func deleteTempHTMLFile(_ url: URL){
+    let fileManager = FileManager.default
+    try! fileManager.removeItem(at: url)
+}
+
+public func displayReceivedPage(_ contents: String){
+    let tempHTMLFileURL = createTempHTMLFile(contents: contents)
+    openTempHTMLFile(tempHTMLFileURL)
+    //deleteTempHTMLFile(tempHTMLFileURL)
+    print(tempHTMLFileURL) // CURRENTLY CLUTTERS FILESYSTEM WITH TEMP FILES
+}
