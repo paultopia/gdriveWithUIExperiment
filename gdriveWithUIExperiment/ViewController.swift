@@ -20,12 +20,16 @@ class ViewController: NSViewController {
         askForAuthorization() // this returns a full html page from google, so need to put it in a temp file an open it...
     }
     
+    
+    @IBAction func codeToToken(_ sender: Any) {
+        let code = authCode.get()!
+        tradeAuthCodeForAccessToken(authCode: code)
+    }
+    
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
         // test something here.
-        let code = authCode.get()!
-        tradeAuthCodeForAccessToken(authCode: code)
-        //post(url: "https://postman-echo.com/post", queries: ["foo": "bar", "bat": "baz"], callback: {print($0)})
+
     }
     
     

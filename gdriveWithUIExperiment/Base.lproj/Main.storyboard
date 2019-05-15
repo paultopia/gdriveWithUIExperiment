@@ -750,6 +750,17 @@
                                     <action selector="testBot:" target="XfG-lQ-9wD" id="8YZ-WB-DKS"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-4t-1wg">
+                                <rect key="frame" x="14" y="133" width="119" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="code-&gt;token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="z1U-Mh-XLg">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="codeToToken:" target="XfG-lQ-9wD" id="zEg-vj-D37"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>

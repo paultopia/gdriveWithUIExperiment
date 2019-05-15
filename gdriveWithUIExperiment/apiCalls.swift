@@ -19,12 +19,19 @@ public func askForAuthorization(){ // returns the entire freaking web page as a 
     fetch(url: endpoint, queries: queries, callback: displayReceivedPage)
 }
 
+func saveTokens(_ tokenJSON: String) {
+    let tokens = parseJson(json: tokenJSON.data(using: .utf8)!)
+    accessToken.set(tokens.accessToken)
+    refreshToken.set(tokens.refreshToken)
+    print(accessToken.get())
+}
+
 public func tradeAuthCodeForAccessToken(authCode: String){ 
     let endpoint = "https://www.googleapis.com/oauth2/v4/token"
     let queries = ["code": authCode,
                    "client_id": clientKey.get()!,
                    "redirect_uri": "io.gowder.experiment:/oauth",
                    "grant_type": "authorization_code"]
-    post(url: endpoint, queries: queries, callback: {print($0)})
+    post(url: endpoint, queries: queries, callback: saveTokens)
     
 }

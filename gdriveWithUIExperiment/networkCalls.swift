@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 func fetch(url: String, queries: [String: String], callback:@escaping (String) -> Void) {
     let session = URLSession.shared
     var urlComponents = URLComponents(string: url)!
