@@ -11,6 +11,7 @@
 		F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC157228C617E00D884F9 /* ViewController.swift */; };
 		F7BFC15A228C618000D884F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7BFC159228C618000D884F9 /* Assets.xcassets */; };
 		F7BFC15D228C618000D884F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7BFC15B228C618000D884F9 /* Main.storyboard */; };
+		F7BFC166228C738000D884F9 /* credentialStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC165228C738000D884F9 /* credentialStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		F7BFC15C228C618000D884F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F7BFC15E228C618000D884F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7BFC15F228C618000D884F9 /* gdriveWithUIExperiment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gdriveWithUIExperiment.entitlements; sourceTree = "<group>"; };
+		F7BFC165228C738000D884F9 /* credentialStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = credentialStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BFC155228C617E00D884F9 /* AppDelegate.swift */,
+				F7BFC165228C738000D884F9 /* credentialStorage.swift */,
 				F7BFC157228C617E00D884F9 /* ViewController.swift */,
 				F7BFC159228C618000D884F9 /* Assets.xcassets */,
 				F7BFC15B228C618000D884F9 /* Main.storyboard */,
@@ -133,6 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7BFC166228C738000D884F9 /* credentialStorage.swift in Sources */,
 				F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */,
 				F7BFC156228C617E00D884F9 /* AppDelegate.swift in Sources */,
 			);

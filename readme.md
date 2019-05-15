@@ -9,3 +9,5 @@ See general instructions for the oauth flow [here](https://developers.google.com
 It looks like there are two basic ways to have the oauth flow call back into an app once users have authorized it: either spin up a web server on localhost, or set up a custom url scheme. The google docs are highly unclear as to how to give it the correct address to talk to either way---it looks like there should be a place to do so, but I can't find it.
 
 2.  Tutorial for setting up a custom url scheme: [this looks good](https://css-tricks.com/create-url-scheme/).  I used `pgexperiment` as the URI scheme, so it should be possible to go to, e.g., `pgexperiment://foo.bar` in a browser and get input into the app. 
+
+3.  Put your key and secret into the nice spots on the application designated for that purpose.  Where they will be stored in [user defaults](https://developer.apple.com/documentation/foundation/userdefaults) even though apparently that's insecure?  works for experimentation tho.
