@@ -18,3 +18,13 @@ public func askForAuthorization(){ // returns the entire freaking web page as a 
                    "scope": "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata"]
     fetch(url: endpoint, queries: queries, callback: displayReceivedPage)
 }
+
+public func tradeAuthCodeForAccessToken(authCode: String){ 
+    let endpoint = "https://www.googleapis.com/oauth2/v4/token"
+    let queries = ["code": authCode,
+                   "client_id": clientKey.get()!,
+                   "redirect_uri": "io.gowder.experiment:/oauth",
+                   "grant_type": "authorization_code"]
+    post(url: endpoint, queries: queries, callback: {print($0)})
+    
+}

@@ -23,10 +23,9 @@ class ViewController: NSViewController {
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
         // test something here.
-        
-        let tempHTMLFileURL = createTempHTMLFile(contents: "<html><body>TEST!</body></html>")
-        openTempHTMLFile(tempHTMLFileURL)
-        deleteTempHTMLFile(tempHTMLFileURL)
+        let code = authCode.get()!
+        tradeAuthCodeForAccessToken(authCode: code)
+        //post(url: "https://postman-echo.com/post", queries: ["foo": "bar", "bat": "baz"], callback: {print($0)})
     }
     
     
