@@ -8,9 +8,11 @@
 
 import Foundation
 
-func fetch(url: String, callback:@escaping (String) -> Void) {
+func fetch(url: String, queries: [String: String], callback:@escaping (String) -> Void) {
     let session = URLSession.shared
-    let address = URL(string: url)!
+    var urlComponents = URLComponents(string: url)!
+    urlComponents.queryItems = queries.map {(k, v) in URLQueryItem(name: k, value: v)}
+    let address = urlComponents.url!
     let task = session.dataTask(with: address, completionHandler: {data, response, error in
         if error != nil || data == nil {
             print("Client error!")

@@ -13,6 +13,8 @@
 		F7BFC15D228C618000D884F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7BFC15B228C618000D884F9 /* Main.storyboard */; };
 		F7BFC166228C738000D884F9 /* credentialStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC165228C738000D884F9 /* credentialStorage.swift */; };
 		F7BFC168228C8A5200D884F9 /* networkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC167228C8A5200D884F9 /* networkCalls.swift */; };
+		F7BFC16A228CA2FE00D884F9 /* apiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC169228CA2FE00D884F9 /* apiCalls.swift */; };
+		F7BFC16C228CA9ED00D884F9 /* temporaryHTMLFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC16B228CA9ED00D884F9 /* temporaryHTMLFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		F7BFC15F228C618000D884F9 /* gdriveWithUIExperiment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gdriveWithUIExperiment.entitlements; sourceTree = "<group>"; };
 		F7BFC165228C738000D884F9 /* credentialStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = credentialStorage.swift; sourceTree = "<group>"; };
 		F7BFC167228C8A5200D884F9 /* networkCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = networkCalls.swift; sourceTree = "<group>"; };
+		F7BFC169228CA2FE00D884F9 /* apiCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apiCalls.swift; sourceTree = "<group>"; };
+		F7BFC16B228CA9ED00D884F9 /* temporaryHTMLFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = temporaryHTMLFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				F7BFC155228C617E00D884F9 /* AppDelegate.swift */,
 				F7BFC165228C738000D884F9 /* credentialStorage.swift */,
 				F7BFC167228C8A5200D884F9 /* networkCalls.swift */,
+				F7BFC169228CA2FE00D884F9 /* apiCalls.swift */,
+				F7BFC16B228CA9ED00D884F9 /* temporaryHTMLFile.swift */,
 				F7BFC157228C617E00D884F9 /* ViewController.swift */,
 				F7BFC159228C618000D884F9 /* Assets.xcassets */,
 				F7BFC15B228C618000D884F9 /* Main.storyboard */,
@@ -144,8 +150,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7BFC16C228CA9ED00D884F9 /* temporaryHTMLFile.swift in Sources */,
 				F7BFC166228C738000D884F9 /* credentialStorage.swift in Sources */,
 				F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */,
+				F7BFC16A228CA2FE00D884F9 /* apiCalls.swift in Sources */,
 				F7BFC168228C8A5200D884F9 /* networkCalls.swift in Sources */,
 				F7BFC156228C617E00D884F9 /* AppDelegate.swift in Sources */,
 			);

@@ -17,8 +17,17 @@ class ViewController: NSViewController {
 
     }
     @IBAction func makeAuthRequest(_ sender: Any) {
-        print("not implemented")
+        askForAuthorization() // this returns a full html page from google, so need to put it in a temp file an open it...
     }
+    
+    // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
+    @IBAction func testBot(_ sender: Any) {
+        // test something here.
+        
+        let tempHTMLFileURL = createTempHTMLFile(contents: "<html><body>TEST!</body></html>")
+        print(tempHTMLFileURL)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
