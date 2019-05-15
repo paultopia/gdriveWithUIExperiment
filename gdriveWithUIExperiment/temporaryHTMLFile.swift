@@ -8,6 +8,7 @@
 
 import AppKit
 
+
 public func createTempHTMLFile(contents: String) -> URL {
     let fileManager = FileManager.default
     let dest = fileManager.temporaryDirectory
@@ -30,7 +31,7 @@ public func openTempHTMLFile(_ url: URL){
                             launchIdentifiers: nil)
 }
 
-public func deleteTempHTMLFile(_ url: URL){
+func deleteTempHTMLFile(_ url: URL){
     let fileManager = FileManager.default
     try! fileManager.removeItem(at: url)
 }
@@ -38,6 +39,12 @@ public func deleteTempHTMLFile(_ url: URL){
 public func displayReceivedPage(_ contents: String){
     let tempHTMLFileURL = createTempHTMLFile(contents: contents)
     openTempHTMLFile(tempHTMLFileURL)
-    //deleteTempHTMLFile(tempHTMLFileURL)
-    print(tempHTMLFileURL) // CURRENTLY CLUTTERS FILESYSTEM WITH TEMP FILES
+    print(tempHTMLFileURL)
+    hackishGlobalState.tempFile = tempHTMLFileURL
+}
+
+public func cleanupTempHTMLFile(){
+    if let tempHTMLFileURL = hackishGlobalState.tempFile {
+            deleteTempHTMLFile(tempHTMLFileURL)
+    }
 }
