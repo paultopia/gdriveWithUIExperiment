@@ -10,6 +10,13 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    @IBOutlet var clientID: NSTextField!
+    @IBOutlet var clientSecret: NSTextField!
+    @IBAction func saveCreds(_ sender: Any) {
+        setDefaults(client: clientID.stringValue, secret: clientSecret.stringValue)
+        print(getClient()!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

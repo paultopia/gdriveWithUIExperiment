@@ -10,8 +10,8 @@ import Foundation
 
 public func setDefaults(client: String, secret:String){
     let defaults = UserDefaults.standard
-    defaults.set(client, forKey: client)
-    defaults.set(secret, forKey: secret)
+    defaults.set(client, forKey: "client")
+    defaults.set(secret, forKey: "secret")
 }
 
 public func getClient() -> String? {
