@@ -14,6 +14,6 @@ It looks like there are two basic ways to have the oauth flow call back into an 
 
 4.  In order to make network requests, make sure that the sandbox is turned on and it's set to make outgoing connections.  I'm not sure if this happens automatically when you clone the xcode project (is this something turned on in info.plist?  WHO KNOWS!). [see also](https://stackoverflow.com/a/49892564/4386239).
 
-5.  Since google oauth doesn't allow embedded webviews, I'm rolling out a system where I take the html that the authorization request gets back from google, saving it to a temp file, and spawning a full-fledged safari instance to handle it. 
+5.  Since google oauth doesn't allow embedded webviews, I'm rolling out a system where I take the html that the authorization request gets back from google, saving it to a temp file, and spawning a full-fledged safari instance to handle it.  
 
-CURRENT STATUS: that's as far as I've gotten: you can put a client ID in, and lick a button, and it'll spawn a web browser with the google auth request; that browser will then an auth code back to the app, which will receive it and print it (currently not parsing it). 
+CURRENT STATUS: you can put a client ID in, and click a button to save that.  Then you can click a button to authorize access, and it'll spawn a web browser with the google auth request; if accepted that browser will then an auth code back to the app, which will receive it, parse it, and shove it into user defaults.  So I'm at [step 4 of these instructions](https://developers.google.com/identity/protocols/OAuth2InstalledApp#overview) 

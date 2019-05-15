@@ -18,8 +18,7 @@ public func createTempHTMLFile(contents: String) -> URL {
     try! contents.write(to: dest, atomically: true, encoding: .utf8)
     
     let contentsOfFile = try! String(contentsOf: dest, encoding: .utf8)
-    
-    print(contentsOfFile)
+
     return dest
 }
 

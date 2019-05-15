@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let appleEventURL = URL(string: appleEventURLString)
         print("Received Apple Event URL: \(appleEventURL)")
-        
+        handleIncomingURL(appleEventURL)
         cleanupTempHTMLFile()
         
     }
