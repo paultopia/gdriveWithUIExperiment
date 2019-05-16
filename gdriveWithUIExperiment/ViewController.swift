@@ -28,11 +28,15 @@ class ViewController: NSViewController {
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        // test something here.
+        getLastFileHeader()
 
     }
     
+    @IBOutlet var authTokenDirect: NSTextField!
     
+    @IBAction func authTokenDirectAdder(_ sender: Any) {
+        accessToken.set(authTokenDirect.stringValue)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 

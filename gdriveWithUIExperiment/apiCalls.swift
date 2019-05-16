@@ -35,3 +35,16 @@ public func tradeAuthCodeForAccessToken(authCode: String){
     post(url: endpoint, queries: queries, callback: saveTokens)
     
 }
+
+func getLastFileHeader() {
+    guard let token = accessToken.get() else {
+        print("no access token")
+        return
+    }
+    
+    let endpoint = "https://www.googleapis.com/drive/v3/files"
+    let queries = ["access_token": token,
+                   "orderBy": "createdTime desc",
+                   "pageSize": "1"]
+    fetch(url: endpoint, queries: queries, callback: {print($0)})
+}
