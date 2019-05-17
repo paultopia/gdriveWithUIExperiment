@@ -113,21 +113,17 @@ struct multipartRelatedUpload {
         mediaPart = multipartUploadPart(media: media, mimetype: self.mimetype)
     }
     
-    
-    func authHeader() -> [String: String]? {
-        guard let token = accessToken.get() else {
-            print("no access token")
-            return nil
-        }
-        return ["Authorization": "Bearer \(token)"]
+    func makeEndpoint() -> String {
+        return "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&access_token=\(accessToken.get()!)>"
     }
+    
 
     func buildBody() -> Data {
         // implement me: basically take every string, including line breaks per examples
         // here https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2 and
         // make them UTF-8 and then append them to data
         
-        // LEFT TO DO: headers.
+        // LEFT TO DO: headers for parts
         var body = Data()
         body.append(boundary)
         body.append(multipartRelatedUpload.lineBreak())
@@ -149,16 +145,8 @@ struct multipartRelatedUpload {
         return body
     }
     
-    func finalizeHeaders() -> [String: String] {
-        // TODO: auth key + content-length + existing headers all together.
-        // ALTHOUGH: swift claims this is reserved and don't have to set?! https://developer.apple.com/documentation/foundation/urlrequest/2011447-setvalue
-        // oh, NICE! It does do that!!  NO CONTENT LENGTH NEEDED!! https://developer.apple.com/documentation/foundation/nsurlrequest#1776617
-        return ["": ""]
-    }
-    
     func composeRequest() -> URLRequest {
-        var request = URLRequest(url: URL(string: multipartRelatedUpload.endpoint)!)
-        let headers = finalizeHeaders()
+        var request = URLRequest(url: URL(string: makeEndpoint())!)
         request.httpMethod = "POST"
         headers.forEach({key, value in
             request.setValue(value, forHTTPHeaderField: key)
