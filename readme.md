@@ -41,10 +41,23 @@ Then put your key into the nice spot on the application designated for that purp
 
 - Parsing JSON is lovely with `Codeable`.  Here's a [tutorial](https://benscheirman.com/2017/06/swift-json/).  I've been terrified of parsing JSON in languages with serious types for a long time, but this took me only marginally more typing than it would with python, and with less thinking.  Someone send cookies and chocolate to whoever proposed that protocol please. 
 
-- Xcode is unlovely in the extreme. Random errors seem to crop up on the regular where some decision you made the last time you made the app stick around despite changing in the code/settings (for me in this process the most notable example was the custom uri not changing when I realized it needed dots). The solution generally is the menu incantation Product -> Clean Build Folder.  (Also, for some stupid reason, to actually get an executable to save somewhere in order to run it the menu incantation is Product -> Archive.  NOT any of the actual "build" options.  Which makes no sense whatsoever. Archive means build, build means some other kind of janky build that gives you no, you know, actual built artifact that you can use.**
+- Xcode is unlovely in the extreme. Random errors seem to crop up on the regular where some decision you made the last time you made the app stick around despite changing in the code/settings (for me in this process the most notable example was the custom uri not changing when I realized it needed dots). The solution generally is the menu incantation Product -> Clean Build Folder.  (Also, for some stupid reason, to actually get an executable to save somewhere in order to run it the menu incantation is Product -> Archive.  NOT any of the actual "build** options.  Which makes no sense whatsoever. Archive means build, build means some other kind of janky build that gives you no, you know, actual built artifact that you can use.**
+
+**sending files up to drive** (in progress, working notes being sketched here.)
+
+- multipart uploads are one option.  but implementing seems super complicated, and I don't really have a clue how to do it.  I started a stub for this and am working on building it out.  For future reference [one tutorial in swift 3](https://newfivefour.com/swift-form-data-multipart-upload-URLRequest.html), and [someone's gist](https://gist.github.com/nolanw/dff7cc5d5570b030d6ba385698348b7c), and [an old SO on the subject](https://stackoverflow.com/questions/29623187/upload-image-with-multipart-form-data-ios-in-swift) [and another SO on the subject](https://stackoverflow.com/questions/26162616/upload-image-with-parameters-in-swift/26163136#26163136).  The basic process seems to involve creating a boundary and passing it in a header (?) and then effectively constructing multiple request bodies on either side (?).  The google API also asks for the total size of the request, and I confess I'm not quite sure how to calculate that... like, add the file size to the size of a utf-8 encoded string with the rest of the body?! (But I guess the [httpBody](https://developer.apple.com/documentation/foundation/urlrequest/2011390-httpbody) of a urlrequest is just a `Data` so I could just grab the size of the whole thing right before sending?? )
+
+- the resumable upload doesn't seem to demand multipart uploads, so it's a bit less complicated... may switch to that.
+
+
 
 **a couple of other useful references**
 
-- [google's explanation of the oauth steps](https://developers.google.com/identity/protocols/OAuth2InstalledApp)
+- [google's explanation of the oauth steps](https://developers.google.com/identity/protocols/OAuth2InstalledApp) 
 
 - [good networking in swift tutorial](https://medium.com/swift2go/networking-in-swift-the-right-way-17cd34d11b7b)
+
+- [google docs for uploading](https://developers.google.com/drive/api/v3/manage-uploads)
+
+- [google docs for uploading part 2](https://developers.google.com/drive/api/v3/reference/files)
+

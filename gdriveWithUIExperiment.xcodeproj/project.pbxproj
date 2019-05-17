@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F77C2578228F17E7005EE7CF /* uploadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77C2577228F17E7005EE7CF /* uploadFile.swift */; };
 		F7BFC156228C617E00D884F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC155228C617E00D884F9 /* AppDelegate.swift */; };
 		F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC157228C617E00D884F9 /* ViewController.swift */; };
 		F7BFC15A228C618000D884F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7BFC159228C618000D884F9 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F77C2577228F17E7005EE7CF /* uploadFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadFile.swift; sourceTree = "<group>"; };
 		F7BFC152228C617E00D884F9 /* gdriveWithUIExperiment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gdriveWithUIExperiment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BFC155228C617E00D884F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7BFC157228C617E00D884F9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				F7BFC165228C738000D884F9 /* credentialStorage.swift */,
 				F7BFC167228C8A5200D884F9 /* networkCalls.swift */,
 				F7BFC169228CA2FE00D884F9 /* apiCalls.swift */,
+				F77C2577228F17E7005EE7CF /* uploadFile.swift */,
 				F7BFC16B228CA9ED00D884F9 /* temporaryHTMLFile.swift */,
 				F7BFC16D228CB5F800D884F9 /* state.swift */,
 				F7BFC157228C617E00D884F9 /* ViewController.swift */,
@@ -165,6 +168,7 @@
 				F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */,
 				F7BFC16A228CA2FE00D884F9 /* apiCalls.swift in Sources */,
 				F7BFC172228CCA8500D884F9 /* parseIncomingJSON.swift in Sources */,
+				F77C2578228F17E7005EE7CF /* uploadFile.swift in Sources */,
 				F7BFC170228CB90400D884F9 /* handleIncomingURL.swift in Sources */,
 				F7BFC168228C8A5200D884F9 /* networkCalls.swift in Sources */,
 				F7BFC156228C617E00D884F9 /* AppDelegate.swift in Sources */,
