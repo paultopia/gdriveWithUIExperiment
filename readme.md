@@ -47,6 +47,8 @@ Then put your key into the nice spot on the application designated for that purp
 
 - multipart uploads are one option.  but implementing seems super complicated, and I don't really have a clue how to do it.  I started a stub for this and am working on building it out.  For future reference [one tutorial in swift 3](https://newfivefour.com/swift-form-data-multipart-upload-URLRequest.html), and [someone's gist](https://gist.github.com/nolanw/dff7cc5d5570b030d6ba385698348b7c), and [an old SO on the subject](https://stackoverflow.com/questions/29623187/upload-image-with-multipart-form-data-ios-in-swift) [and another SO on the subject](https://stackoverflow.com/questions/26162616/upload-image-with-parameters-in-swift/26163136#26163136). This seems to be [a spec for that shit](https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2)  The basic process seems to involve creating a boundary and passing it in a header (?) and then effectively constructing multiple request bodies on either side (?).  The google API also asks for the total size of the request, and I confess I'm not quite sure how to calculate that... like, add the file size to the size of a utf-8 encoded string with the rest of the body?! (But I guess the [httpBody](https://developer.apple.com/documentation/foundation/urlrequest/2011390-httpbody) of a urlrequest is just a `Data` so I could just grab the size of the whole thing right before sending?? )
 
+after reading [this SO](https://stackoverflow.com/questions/611906/http-post-with-url-query-parameters-good-idea-or-not), I guess when google asks for a query parameter in a post request you just mush it into the string like a get request?  OKAY.... 
+
 - the resumable upload doesn't seem to demand multipart uploads, so it's a bit less complicated... may switch to that.
 
 
@@ -61,3 +63,4 @@ Then put your key into the nice spot on the application designated for that purp
 
 - [google docs for uploading part 2](https://developers.google.com/drive/api/v3/reference/files)
 
+- [mime types for uploading](https://developers.google.com/drive/api/v3/mime-types)---you can, e.g, upload a word file in the google docs mime type and it'll convert it so you can call docs stuff on it/make use of download conversions/etc.
