@@ -148,4 +148,25 @@ struct multipartRelatedUpload {
         body.append("--")
         return body
     }
+    
+    func finalizeHeaders() -> [String: String] {
+        // TODO: auth key + content-length + existing headers all together.
+        // ALTHOUGH: swift claims this is reserved and don't have to set?! https://developer.apple.com/documentation/foundation/urlrequest/2011447-setvalue
+        // oh, NICE! It does do that!!  NO CONTENT LENGTH NEEDED!! https://developer.apple.com/documentation/foundation/nsurlrequest#1776617
+        return ["": ""]
+    }
+    
+    func composeRequest() -> URLRequest {
+        var request = URLRequest(url: URL(string: multipartRelatedUpload.endpoint)!)
+        let headers = finalizeHeaders()
+        request.httpMethod = "POST"
+        headers.forEach({key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        })
+        // USE  request.setValue to set headers, just loop over header dict
+        request.httpBody = buildBody()
+        return request
+    }
 }
+
+

@@ -53,6 +53,26 @@ after reading [this SO](https://stackoverflow.com/questions/611906/http-post-wit
 
 
 
+
+**apparently swift doesn't let you set authentication headers directly?!!?**  I may pass it in the query string, since google's api lets one do so if one chooses. Instead, there's some terrible indirect monstrosity using delegates responding to challenges and shit. and apparently that means you have to use a class?!  and add all sorts of terrible object-oriented garbage?!  refs: 
+
+- https://developer.apple.com/documentation/foundation/url_loading_system/handling_an_authentication_challenge 
+
+- https://forums.developer.apple.com/thread/68809
+
+- https://stackoverflow.com/questions/56194203/swift-5-urlrequest-authorization-header-reserved-how-to-set 
+
+- https://blog.cocoafrog.de/2017/11/18/how-nsurlsession-authentication-should-work.html
+
+- https://stackoverflow.com/questions/44843404/how-to-set-a-token-xxxxxxxxxx-for-authorization-in-http-header-in-urlsession 
+
+- https://stackoverflow.com/questions/46852680/urlsession-doesnt-pass-authorization-key-in-header-swift-4
+
+but really I think I'll just sent it in the URL.  How moronic!!
+
+
+
+
 **a couple of other useful references**
 
 - [google's explanation of the oauth steps](https://developers.google.com/identity/protocols/OAuth2InstalledApp) 
@@ -63,4 +83,5 @@ after reading [this SO](https://stackoverflow.com/questions/611906/http-post-wit
 
 - [google docs for uploading part 2](https://developers.google.com/drive/api/v3/reference/files)
 
-- [mime types for uploading](https://developers.google.com/drive/api/v3/mime-types)---you can, e.g, upload a word file in the google docs mime type and it'll convert it so you can call docs stuff on it/make use of download conversions/etc.
+- [mime types for uploading](https://developers.google.com/drive/api/v3/mime-types**---you can, e.g, upload a word file in the google docs mime type and it'll convert it so you can call docs stuff on it/make use of download conversions/etc.
+
