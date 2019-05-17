@@ -96,7 +96,7 @@ struct multipartRelatedUpload {
          extraHeaders: [String: String]? = nil,
          incomingMimeType: String? = nil,
          gdriveMimeType: String? = nil) {
-        let bdry = "--\(UUID().uuidString)--"
+        let bdry = "--\(UUID().uuidString)"
         boundary = bdry
         let requiredHeader = ["Content-Type": "multipart/related; boundary=\(bdry)"]
         if let hdrs = extraHeaders {
@@ -127,7 +127,7 @@ struct multipartRelatedUpload {
         // here https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2 and
         // make them UTF-8 and then append them to data
         
-        // LEFT TO DO: headers. 
+        // LEFT TO DO: headers.
         var body = Data()
         body.append(boundary)
         body.append(multipartRelatedUpload.lineBreak())
@@ -145,6 +145,7 @@ struct multipartRelatedUpload {
         body.append(mediaPart.body)
         body.append(multipartRelatedUpload.lineBreak())
         body.append(boundary)
+        body.append("--")
         return body
     }
 }
