@@ -157,4 +157,8 @@ struct multipartRelatedUpload {
     }
 }
 
+// this might be all wrong and I should be using an upload task?!
+// https://developer.apple.com/documentation/foundation/urlsession/1411550-uploadtask
+// but not sure how much control it gives you, and datatask also lets you add a body.
+// https://developer.apple.com/documentation/foundation/urlsessiondatatask
 
