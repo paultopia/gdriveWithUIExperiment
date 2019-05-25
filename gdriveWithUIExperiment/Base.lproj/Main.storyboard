@@ -709,7 +709,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nef-T9-hNf">
-                                <rect key="frame" x="20" y="228" width="96" height="22"/>
+                                <rect key="frame" x="20" y="228" width="169" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="clientID" placeholderString="client id" drawsBackground="YES" id="vKZ-tP-Kfq">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -717,28 +717,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ooT-p3-Zvy">
-                                <rect key="frame" x="14" y="192" width="107" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Save creds" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3cB-U0-N93">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="saveCreds:" target="XfG-lQ-9wD" id="Qiq-rs-Eah"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uHE-06-VMr">
-                                <rect key="frame" x="14" y="166" width="97" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="authorize" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kGf-Kg-YpD">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="makeAuthRequest:" target="XfG-lQ-9wD" id="eBp-TV-shf"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VW5-BO-4Wb">
                                 <rect key="frame" x="170" y="7" width="192" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -750,41 +728,20 @@
                                     <action selector="testBot:" target="XfG-lQ-9wD" id="8YZ-WB-DKS"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dPx-4t-1wg">
-                                <rect key="frame" x="14" y="133" width="119" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ooT-p3-Zvy">
+                                <rect key="frame" x="14" y="192" width="193" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="code-&gt;token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="z1U-Mh-XLg">
+                                <buttonCell key="cell" type="push" title="Save creds and authorize" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3cB-U0-N93">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="codeToToken:" target="XfG-lQ-9wD" id="zEg-vj-D37"/>
-                                </connections>
-                            </button>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exS-Ub-Nsq">
-                                <rect key="frame" x="349" y="192" width="96" height="22"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="token" drawsBackground="YES" id="VIx-8D-aWo">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K4r-7I-8AT">
-                                <rect key="frame" x="303" y="150" width="157" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="just add auth token" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LWA-fY-qcg">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="authTokenDirectAdder:" target="XfG-lQ-9wD" id="FEm-vX-ugM"/>
+                                    <action selector="saveCreds:" target="XfG-lQ-9wD" id="Qiq-rs-Eah"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="authTokenDirect" destination="exS-Ub-Nsq" id="TEE-3V-i8T"/>
                         <outlet property="clientID" destination="nef-T9-hNf" id="Ylh-E2-Z1M"/>
                     </connections>
                 </viewController>

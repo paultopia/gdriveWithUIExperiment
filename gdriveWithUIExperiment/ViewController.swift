@@ -20,15 +20,6 @@ class ViewController: NSViewController {
         askForAuthorization(key: key)
 
     }
-    @IBAction func makeAuthRequest(_ sender: Any) {
-        askForAuthorization(key: clientKey.get()!)
-    }
-    
-    
-    @IBAction func codeToToken(_ sender: Any) {
-        let code = authCode.get()!
-        tradeAuthCodeForAccessToken(authCode: code)
-    }
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
