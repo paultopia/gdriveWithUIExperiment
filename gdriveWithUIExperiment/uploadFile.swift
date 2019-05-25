@@ -148,9 +148,6 @@ struct MultipartRelatedUpload {
         body.append(boundary)
         body.append(MultipartRelatedUpload.lineBreak())
         body.append(mediaPart.printHeader())
-        // do I need a "Content-Transfer-Encoding: binary" line here like the example says?!
-        // ALSO: do I need a file name in content-disposition?!
-        // I'm just going to try following the google docs, which don't say to do that.
         body.append(MultipartRelatedUpload.lineBreak(2))
         body.append(mediaPart.body)
         body.append(MultipartRelatedUpload.lineBreak())
@@ -193,17 +190,7 @@ struct MultipartRelatedUpload {
     }
 }
 
-func testUploadFormat() {
-    let testRequest = MultipartRelatedUpload(testString: "this is a test string body").composeRequest()
-    print("\n\nHEADERS: \n\n")
-    print(testRequest.allHTTPHeaderFields!)
-    print("\n\nBODY: \n\n")
-    print(String(decoding: testRequest.httpBody!, as: UTF8.self))
-    print("\n\nURL: \n\n")
-    print(testRequest.url!)
-    print("\n\nmethod: \n\n")
-    print(testRequest.httpMethod!)
-}
+
 
 // this might be all wrong and I should be using an upload task?!
 // https://developer.apple.com/documentation/foundation/urlsession/1411550-uploadtask

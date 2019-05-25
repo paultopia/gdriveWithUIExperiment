@@ -12,6 +12,18 @@ func basicLocalhostCall() {
     fetch(url: "http://localhost:8888/", queries: ["Foo": "Bar"], callback: {print($0)})
 }
 
+func testUploadFormat() {
+    let testRequest = MultipartRelatedUpload(testString: "this is a test string body").composeRequest()
+    print("\n\nHEADERS: \n\n")
+    print(testRequest.allHTTPHeaderFields!)
+    print("\n\nBODY: \n\n")
+    print(String(decoding: testRequest.httpBody!, as: UTF8.self))
+    print("\n\nURL: \n\n")
+    print(testRequest.url!)
+    print("\n\nmethod: \n\n")
+    print(testRequest.httpMethod!)
+}
+
 func testInLocalEchoServer(){
     let dialog = NSOpenPanel()
     dialog.title = "choose file"
