@@ -148,9 +148,16 @@ struct MultipartRelatedUpload {
             // HORRIBLE HACK to not propagate optionals everywhere
             return URL(string: "http://does.not.work")!
         }
-        guard let url = URL(string: "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&access_token=\(token)>") else {
-            print("failed to create url")
-            // HORRIBLE HACK to not propagate optionals everywhere
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "www.googleapis.com"
+        components.path = "/upload/drive/v3/files"
+        components.queryItems = [
+            URLQueryItem(name: "uploadType", value: "multipart"),
+            URLQueryItem(name: "access_token", value: token)
+        ]
+        guard let url = components.url else {
+            print("still could not construct url")
             return URL(string: "http://does.not.work")!
         }
         return url
