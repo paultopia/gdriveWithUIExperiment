@@ -21,8 +21,8 @@ class ViewController: NSViewController {
 
     }
     @IBAction func uploadButtonPressed(_ sender: Any) {
-        //uploadWordDocument()
-        testInLocalEchoServer()
+        uploadWordDocument()
+        //testInLocalEchoServer()
         //basicLocalhostCall()
     }
     
