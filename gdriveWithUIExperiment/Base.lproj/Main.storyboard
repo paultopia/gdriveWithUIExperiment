@@ -717,6 +717,17 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VW5-BO-4Wb">
+                                <rect key="frame" x="14" y="22" width="225" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="testbot (generate fake upload)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KX7-gi-EUX">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="testBot:" target="XfG-lQ-9wD" id="8YZ-WB-DKS"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ooT-p3-Zvy">
                                 <rect key="frame" x="14" y="192" width="193" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -739,15 +750,15 @@
                                     <action selector="uploadButtonPressed:" target="XfG-lQ-9wD" id="n2u-dY-f5I"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VW5-BO-4Wb">
-                                <rect key="frame" x="14" y="39" width="172" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyh-1N-b3h">
+                                <rect key="frame" x="14" y="49" width="175" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="testbot (print last file)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KX7-gi-EUX">
+                                <buttonCell key="cell" type="push" title="view last file uploaded" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="csI-2W-Fpf">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="testBot:" target="XfG-lQ-9wD" id="8YZ-WB-DKS"/>
+                                    <action selector="lastFileButtonPressed:" target="XfG-lQ-9wD" id="31I-kz-OcL"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -216,6 +216,7 @@ struct MultipartRelatedUpload {
             }
             callback(String(data: data!, encoding: .utf8)!)
         })
+        task.resume()
     }
 }
 

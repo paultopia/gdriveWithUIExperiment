@@ -24,9 +24,12 @@ class ViewController: NSViewController {
      uploadWordDocument()
     }
     
+    @IBAction func lastFileButtonPressed(_ sender: Any) {
+        getLastFileHeader()
+    }
+    
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        //getLastFileHeader()
         testUploadFormat()
     }
     
