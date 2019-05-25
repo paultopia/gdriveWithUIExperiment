@@ -28,6 +28,9 @@ func parseIncomingURL(_ incoming: URL?) -> String? {
 public func handleIncomingURL(_ incoming: URL?){
     if let code = parseIncomingURL(incoming){
         authCode.set(code)
+        print("got auth code!")
         print(authCode.get())
+        // now jumping directly to trading it for a token:
+        tradeAuthCodeForAccessToken(authCode: code)
     }
 }

@@ -12,12 +12,16 @@ class ViewController: NSViewController {
 
     @IBOutlet var clientID: NSTextField!
     @IBAction func saveCreds(_ sender: Any) {
-        clientKey.set(clientID.stringValue)
+        let key = clientID.stringValue
+        clientKey.set(key)
+        print("saved client key")
         print(clientKey.get()!)
+        // now jumping direct to authorization
+        askForAuthorization(key: key)
 
     }
     @IBAction func makeAuthRequest(_ sender: Any) {
-        askForAuthorization() // this returns a full html page from google, so need to put it in a temp file an open it...
+        askForAuthorization(key: clientKey.get()!)
     }
     
     
@@ -28,10 +32,8 @@ class ViewController: NSViewController {
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        //getLastFileHeader()
-        accessToken.set("STUBTOKEN")
-        print("set access token")
-        testUploadFormat()
+        getLastFileHeader()
+        //testUploadFormat()
     }
     
     @IBOutlet var authTokenDirect: NSTextField!

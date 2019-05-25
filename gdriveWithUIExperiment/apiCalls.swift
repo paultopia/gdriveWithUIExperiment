@@ -10,9 +10,9 @@ import Foundation
 
 
 
-public func askForAuthorization(){ // returns the entire freaking web page as a string infruratingly.
+public func askForAuthorization(key: String){ // returns the entire freaking web page as a string infruratingly.
     let endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
-    let queries = ["client_id": clientKey.get()!,
+    let queries = ["client_id": key,
                    "redirect_uri": "io.gowder.experiment:/oauth",
                    "response_type": "code",
                    "scope": "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata"]
@@ -23,6 +23,7 @@ func saveTokens(_ tokenJSON: String) {
     let tokens = parseJson(json: tokenJSON.data(using: .utf8)!)
     accessToken.set(tokens.accessToken)
     refreshToken.set(tokens.refreshToken)
+    print("got access token:")
     print(accessToken.get())
 }
 
