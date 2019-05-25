@@ -8,14 +8,6 @@
 
 import Foundation
 
-extension URLRequest {
-    func getSize() -> Int? {
-        guard let body = self.httpBody else {
-            return nil
-        }
-        return body.count
-    }
-}
 
 extension Dictionary {
     func and(_ otherDicts: [Dictionary]) -> Dictionary{
@@ -27,7 +19,7 @@ extension Dictionary {
 
 // IN PROGRESS
 
-struct gDriveFileProperties: Codable {
+struct GDriveFileProperties: Codable {
     var parents: [String] = ["appDataFolder"]
     var mimetype: String = "application/vnd.google-apps.document"
     var name: String
@@ -48,24 +40,43 @@ struct gDriveFileProperties: Codable {
             self.name = file.lastPathComponent
         }
     }
+    // FOR CHECKING FORMAT
+    init(testString: String){
+        name = "This is test filename for gdrive metadata"
+    }
+    
 }
 
 
-struct multipartUploadPart {
+struct MultipartUploadPart {
     static var requiredHeaders = ["Content-Disposition": "form-data"]
     var headers: [String: String]
     let body: Data
-    init(metadata: gDriveFileProperties) {
-        let h = multipartUploadPart.requiredHeaders.and([["Content-Type": "application/json; charset=UTF-8"]])
+    init(metadata: GDriveFileProperties) {
+        let h = MultipartUploadPart.requiredHeaders.and([["Content-Type": "application/json; charset=UTF-8"]])
         headers = h
         let encoder = JSONEncoder()
         body = try! encoder.encode(metadata)
     }
     
     init(media: URL, mimetype: String) {
-        let h = multipartUploadPart.requiredHeaders.and([["Content-Type": mimetype]])
+        let h = MultipartUploadPart.requiredHeaders.and([["Content-Type": mimetype]])
         headers = h
         body = try! Data(contentsOf: media)
+    }
+    
+    // FOR TESTING
+    init(fakeMedia: String, testMimetype: String){
+        let h = MultipartUploadPart.requiredHeaders.and([["Content-Type": testMimetype]])
+        headers = h
+        body = fakeMedia.data(using: .utf8)!
+    }
+    
+    func printHeader() -> String {
+        let arr = headers.map({key, value in
+            "\(key): \(value)"
+        })
+        return arr.joined(separator: "\r\n")
     }
 }
 
@@ -76,12 +87,12 @@ extension Data {
     }
 }
 
-struct multipartRelatedUpload {
+struct MultipartRelatedUpload {
     static var endpoint = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
     var headers: [String: String]
     var boundary: String
-    var metadataPart: multipartUploadPart
-    var mediaPart: multipartUploadPart
+    var metadataPart: MultipartUploadPart
+    var mediaPart: MultipartUploadPart
     var mimetype: String = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     
     static func lineBreak() -> String {
@@ -91,7 +102,7 @@ struct multipartRelatedUpload {
         return String(repeating: "\r\n", count: count)
     }
     
-    init(metadata: gDriveFileProperties,
+    init(metadata: GDriveFileProperties,
          media: URL,
          extraHeaders: [String: String]? = nil,
          incomingMimeType: String? = nil,
@@ -108,38 +119,53 @@ struct multipartRelatedUpload {
         if let m = incomingMimeType {
             self.mimetype = m
         }
-        
-        metadataPart = multipartUploadPart(metadata: metadata)
-        mediaPart = multipartUploadPart(media: media, mimetype: self.mimetype)
+        metadataPart = MultipartUploadPart(metadata: metadata)
+        mediaPart = MultipartUploadPart(media: media, mimetype: self.mimetype)
+    }
+    
+    init(_ wordFile: URL){
+        let bdry = "--\(UUID().uuidString)"
+        boundary = bdry
+        self.headers = ["Content-Type": "multipart/related; boundary=\(bdry)"]
+        let metadata = GDriveFileProperties(wordFile)
+        metadataPart = MultipartUploadPart(metadata: metadata)
+        mediaPart = MultipartUploadPart(media: wordFile, mimetype: self.mimetype)
+    }
+    
+    // FOR TESTING
+    init(testString: String){
+        let bdry = UUID().uuidString
+        boundary = "--\(bdry)"
+        self.headers = ["Content-Type": "multipart/related; boundary=\(bdry)"]
+        let metadata = GDriveFileProperties(testString: "This is test file properties, should not print")
+        metadataPart = MultipartUploadPart(metadata: metadata)
+        mediaPart = MultipartUploadPart(fakeMedia: testString, testMimetype: "this is a fake mimetype for the file")
     }
     
     func makeEndpoint() -> String {
-        return "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&access_token=\(accessToken.get()!)>"
+        //return "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&access_token=\(accessToken.get()!)>"
+        return "here_is_a_fake_endpoint"
     }
     
 
     func buildBody() -> Data {
-        // implement me: basically take every string, including line breaks per examples
-        // here https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2 and
-        // make them UTF-8 and then append them to data
-        
-        // LEFT TO DO: headers for parts
         var body = Data()
         body.append(boundary)
-        body.append(multipartRelatedUpload.lineBreak())
-        // TODO: make partwise-headers here for metadata part, like content-disposition and stuff
-        body.append(multipartRelatedUpload.lineBreak(2))
+        body.append(MultipartRelatedUpload.lineBreak())
+        body.append(metadataPart.printHeader())
+        body.append(MultipartRelatedUpload.lineBreak(2))
         body.append(metadataPart.body)
-        body.append(multipartRelatedUpload.lineBreak())
+        body.append(MultipartRelatedUpload.lineBreak())
         // BEGIN PART 2: MEDIA
         body.append(boundary)
-        body.append(multipartRelatedUpload.lineBreak())
-        // TODO: more partswise headers, for media part.
-        // ALSO: do I need a "Content-Transfer-Encoding: binary" line here like the example says?!
+        body.append(MultipartRelatedUpload.lineBreak())
+        body.append(mediaPart.printHeader())
+        // do I need a "Content-Transfer-Encoding: binary" line here like the example says?!
         // ALSO: do I need a file name in content-disposition?!
-        body.append(multipartRelatedUpload.lineBreak(2))
+        // I'm just going to try following the google docs, which don't say to do that.
+        body.append(MultipartRelatedUpload.lineBreak(2))
         body.append(mediaPart.body)
-        body.append(multipartRelatedUpload.lineBreak())
+        body.append(MultipartRelatedUpload.lineBreak())
         body.append(boundary)
         body.append("--")
         return body
@@ -151,10 +177,21 @@ struct multipartRelatedUpload {
         headers.forEach({key, value in
             request.setValue(value, forHTTPHeaderField: key)
         })
-        // USE  request.setValue to set headers, just loop over header dict
         request.httpBody = buildBody()
         return request
     }
+}
+
+func testUploadFormat() {
+    let testRequest = MultipartRelatedUpload(testString: "this is a test string body").composeRequest()
+    print("\n\nHEADERS: \n\n")
+    print(testRequest.allHTTPHeaderFields!)
+    print("\n\nBODY: \n\n")
+    print(String(decoding: testRequest.httpBody!, as: UTF8.self))
+    print("\n\nURL: \n\n")
+    print(testRequest.url!)
+    print("\n\nmethod: \n\n")
+    print(testRequest.httpMethod!)
 }
 
 // this might be all wrong and I should be using an upload task?!

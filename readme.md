@@ -83,5 +83,8 @@ but really I think I'll just sent it in the URL.  How moronic!!
 
 - [google docs for uploading part 2](https://developers.google.com/drive/api/v3/reference/files)
 
-- [mime types for uploading](https://developers.google.com/drive/api/v3/mime-types**---you can, e.g, upload a word file in the google docs mime type and it'll convert it so you can call docs stuff on it/make use of download conversions/etc.
+- [mime types for uploading](https://developers.google.com/drive/api/v3/mime-types)---you can, e.g, upload a word file in the google docs mime type and it'll convert it so you can call docs stuff on it/make use of download conversions/etc.
+
+- [multipart uploads, in general](https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2)
+
 

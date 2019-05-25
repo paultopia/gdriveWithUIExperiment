@@ -28,8 +28,10 @@ class ViewController: NSViewController {
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        getLastFileHeader()
-
+        //getLastFileHeader()
+        accessToken.set("STUBTOKEN")
+        print("set access token")
+        testUploadFormat()
     }
     
     @IBOutlet var authTokenDirect: NSTextField!
