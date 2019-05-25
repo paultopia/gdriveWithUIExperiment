@@ -94,9 +94,10 @@ struct MultipartRelatedUpload {
         return String(repeating: "\r\n", count: count)
     }
     
+    
     init(_ wordFile: URL){
-        let bdry = "--\(UUID().uuidString)"
-        boundary = bdry
+        let bdry = UUID().uuidString
+        boundary = "--\(bdry)"
         self.headers = ["Content-Type": "multipart/related; boundary=\(bdry)"]
         let metadata = GDriveFileProperties(wordFile)
         metadataPart = MultipartUploadPart(metadata: metadata)
@@ -160,7 +161,7 @@ struct MultipartRelatedUpload {
     
     func composeRequest(testing: Bool = false) -> URLRequest {
         
-        var request = testing ? URLRequest(url: URL(string: "http://http://localhost:8888/")!) : URLRequest(url: makeEndpoint())
+        var request = testing ? URLRequest(url: URL(string: "http://localhost:8888/")!) : URLRequest(url: makeEndpoint())
         request.httpMethod = "POST"
         headers.forEach({key, value in
             request.setValue(value, forHTTPHeaderField: key)
@@ -232,25 +233,3 @@ func uploadWordDocument(){
     }
 }
 
-func testInLocalEchoServer(){
-    let dialog = NSOpenPanel()
-    dialog.title = "choose file"
-    dialog.showsResizeIndicator = true
-    dialog.showsHiddenFiles = true
-    dialog.canChooseDirectories = false
-    dialog.canCreateDirectories = false
-    dialog.allowsMultipleSelection = false
-    dialog.allowedFileTypes = ["docx"]
-    
-    if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-        
-        let result = dialog.url!
-        // NOW UPLOAD IT HERE.
-        let request = MultipartRelatedUpload(result)
-        request.post(callback: {print($0)}, testing: true)
-        
-    } else {
-        // User clicked on "Cancel"
-        return
-    }
-}
