@@ -6,7 +6,7 @@
 //  Copyright © 2019 Paul Gowder. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 
 extension Dictionary {
@@ -142,9 +142,18 @@ struct MultipartRelatedUpload {
         mediaPart = MultipartUploadPart(fakeMedia: testString, testMimetype: "this is a fake mimetype for the file")
     }
     
-    func makeEndpoint() -> String {
-        return "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&access_token=\(accessToken.get()!)>"
-        //return "here_is_a_fake_endpoint"
+    func makeEndpoint() -> URL {
+        guard let token = accessToken.get() else {
+            print("error: can't get access token")
+            // HORRIBLE HACK to not propagate optionals everywhere
+            return URL(string: "http://does.not.work")!
+        }
+        guard let url = URL(string: "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&access_token=\(token)>") else {
+            print("failed to create url")
+            // HORRIBLE HACK to not propagate optionals everywhere
+            return URL(string: "http://does.not.work")!
+        }
+        return url
     }
     
 
@@ -172,13 +181,34 @@ struct MultipartRelatedUpload {
     }
     
     func composeRequest() -> URLRequest {
-        var request = URLRequest(url: URL(string: makeEndpoint())!)
+        var request = URLRequest(url: makeEndpoint())
         request.httpMethod = "POST"
         headers.forEach({key, value in
             request.setValue(value, forHTTPHeaderField: key)
         })
         request.httpBody = buildBody()
         return request
+    }
+    
+    func post(callback:@escaping (String) -> Void){
+        let session = URLSession.shared
+        let request = composeRequest()
+        let task = session.dataTask(with: request, completionHandler: {data, response, error in
+            if error != nil || data == nil {
+                print("Client error!")
+                return
+            }
+            
+            let resp = response as! HTTPURLResponse
+            guard (200...299).contains(resp.statusCode) else {
+                print("Server error: \(resp.statusCode)")
+                print(error)
+                print(response)
+                print(data)
+                return
+            }
+            callback(String(data: data!, encoding: .utf8)!)
+        })
     }
 }
 
@@ -199,3 +229,25 @@ func testUploadFormat() {
 // but not sure how much control it gives you, and datatask also lets you add a body.
 // https://developer.apple.com/documentation/foundation/urlsessiondatatask
 
+func uploadWordDocument(){
+    let dialog = NSOpenPanel()
+    dialog.title = "choose file"
+    dialog.showsResizeIndicator = true
+    dialog.showsHiddenFiles = true
+    dialog.canChooseDirectories = false
+    dialog.canCreateDirectories = false
+    dialog.allowsMultipleSelection = false
+    dialog.allowedFileTypes = ["docx"]
+    
+    if (dialog.runModal() == NSApplication.ModalResponse.OK) {
+        
+        let result = dialog.url!
+        // NOW UPLOAD IT HERE.
+        let request = MultipartRelatedUpload(result)
+        request.post(callback: {print($0)})
+        
+    } else {
+        // User clicked on "Cancel"
+        return
+    }
+}

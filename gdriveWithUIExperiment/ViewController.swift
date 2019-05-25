@@ -20,11 +20,14 @@ class ViewController: NSViewController {
         askForAuthorization(key: key)
 
     }
+    @IBAction func uploadButtonPressed(_ sender: Any) {
+     uploadWordDocument()
+    }
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        getLastFileHeader()
-        //testUploadFormat()
+        //getLastFileHeader()
+        testUploadFormat()
     }
     
     @IBOutlet var authTokenDirect: NSTextField!
