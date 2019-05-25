@@ -9,13 +9,6 @@
 import Cocoa
 
 
-extension Dictionary {
-    func and(_ otherDicts: [Dictionary]) -> Dictionary{
-        return otherDicts.reduce(self, { x, y in
-            x.merging(y) { (current, _) in current }
-        })
-    }
-}
 
 // IN PROGRESS
 
@@ -53,22 +46,19 @@ struct MultipartUploadPart {
     var headers: [String: String]
     let body: Data
     init(metadata: GDriveFileProperties) {
-        let h = MultipartUploadPart.requiredHeaders.and([["Content-Type": "application/json; charset=UTF-8"]])
-        headers = h
+        headers = ["Content-Type": "application/json; charset=UTF-8"]
         let encoder = JSONEncoder()
         body = try! encoder.encode(metadata)
     }
     
     init(media: URL, mimetype: String) {
-        let h = MultipartUploadPart.requiredHeaders.and([["Content-Type": mimetype]])
-        headers = h
+        headers = ["Content-Type": mimetype]
         body = try! Data(contentsOf: media)
     }
     
     // FOR TESTING
     init(fakeMedia: String, testMimetype: String){
-        let h = MultipartUploadPart.requiredHeaders.and([["Content-Type": testMimetype]])
-        headers = h
+        headers = ["Content-Type": testMimetype]
         body = fakeMedia.data(using: .utf8)!
     }
     
@@ -100,27 +90,6 @@ struct MultipartRelatedUpload {
     }
     static func lineBreak(_ count: Int) -> String {
         return String(repeating: "\r\n", count: count)
-    }
-    
-    init(metadata: GDriveFileProperties,
-         media: URL,
-         extraHeaders: [String: String]? = nil,
-         incomingMimeType: String? = nil,
-         gdriveMimeType: String? = nil) {
-        let bdry = "--\(UUID().uuidString)"
-        boundary = bdry
-        let requiredHeader = ["Content-Type": "multipart/related; boundary=\(bdry)"]
-        if let hdrs = extraHeaders {
-            self.headers = requiredHeader.and([hdrs])
-        }
-        else {
-            self.headers = requiredHeader
-        }
-        if let m = incomingMimeType {
-            self.mimetype = m
-        }
-        metadataPart = MultipartUploadPart(metadata: metadata)
-        mediaPart = MultipartUploadPart(media: media, mimetype: self.mimetype)
     }
     
     init(_ wordFile: URL){
