@@ -6,6 +6,8 @@
 //  Copyright © 2019 Paul Gowder. All rights reserved.
 //
 
+// DOES NOT WORK, NOT SURE WHY --- just gets a 400 error from the server.  Probably the request is coming out malformed.
+
 import Cocoa
 
 
@@ -156,8 +158,9 @@ struct MultipartRelatedUpload {
         return body
     }
     
-    func composeRequest() -> URLRequest {
-        var request = URLRequest(url: makeEndpoint())
+    func composeRequest(testing: Bool = false) -> URLRequest {
+        
+        var request = testing ? URLRequest(url: URL(string: "http://http://localhost:8888/")!) : URLRequest(url: makeEndpoint())
         request.httpMethod = "POST"
         headers.forEach({key, value in
             request.setValue(value, forHTTPHeaderField: key)
@@ -166,9 +169,9 @@ struct MultipartRelatedUpload {
         return request
     }
     
-    func post(callback:@escaping (String) -> Void){
+    func post(callback:@escaping (String) -> Void, testing: Bool = false){
         let session = URLSession.shared
-        let request = composeRequest()
+        let request = composeRequest(testing: testing)
         let task = session.dataTask(with: request, completionHandler: {data, response, error in
             if error != nil || data == nil {
                 print("Client error!")
@@ -222,6 +225,29 @@ func uploadWordDocument(){
         // NOW UPLOAD IT HERE.
         let request = MultipartRelatedUpload(result)
         request.post(callback: {print($0)})
+        
+    } else {
+        // User clicked on "Cancel"
+        return
+    }
+}
+
+func testInLocalEchoServer(){
+    let dialog = NSOpenPanel()
+    dialog.title = "choose file"
+    dialog.showsResizeIndicator = true
+    dialog.showsHiddenFiles = true
+    dialog.canChooseDirectories = false
+    dialog.canCreateDirectories = false
+    dialog.allowsMultipleSelection = false
+    dialog.allowedFileTypes = ["docx"]
+    
+    if (dialog.runModal() == NSApplication.ModalResponse.OK) {
+        
+        let result = dialog.url!
+        // NOW UPLOAD IT HERE.
+        let request = MultipartRelatedUpload(result)
+        request.post(callback: {print($0)}, testing: true)
         
     } else {
         // User clicked on "Cancel"

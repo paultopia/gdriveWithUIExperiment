@@ -21,7 +21,8 @@ class ViewController: NSViewController {
 
     }
     @IBAction func uploadButtonPressed(_ sender: Any) {
-     uploadWordDocument()
+        //uploadWordDocument()
+        testInLocalEchoServer() 
     }
     
     @IBAction func lastFileButtonPressed(_ sender: Any) {
