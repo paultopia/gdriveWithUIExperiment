@@ -20,6 +20,11 @@ class ViewController: NSViewController {
         askForAuthorization(key: key)
 
     }
+    
+    @IBAction func refreshAuthPressed(_ sender: Any) {
+        refreshAccess()
+    }
+    
     @IBAction func uploadButtonPressed(_ sender: Any) {
         uploadWordDocument()
         //testInLocalEchoServer()
@@ -36,8 +41,8 @@ class ViewController: NSViewController {
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        //testUploadFormat()
-        downloadCurrentFile()
+        testInLocalEchoServer()
+        //downloadCurrentFile()
     }
     
     @IBOutlet var authTokenDirect: NSTextField!

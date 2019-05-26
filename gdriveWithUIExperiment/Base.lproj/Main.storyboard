@@ -709,7 +709,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nef-T9-hNf">
-                                <rect key="frame" x="20" y="228" width="169" height="22"/>
+                                <rect key="frame" x="305" y="228" width="169" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="clientID" placeholderString="client id" drawsBackground="YES" id="vKZ-tP-Kfq">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -729,7 +729,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ooT-p3-Zvy">
-                                <rect key="frame" x="14" y="192" width="193" height="32"/>
+                                <rect key="frame" x="287" y="189" width="193" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Save creds and authorize" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3cB-U0-N93">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -770,6 +770,17 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="deleteButtonPressed:" target="XfG-lQ-9wD" id="kvF-Ma-ERT"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ti2-zx-2nz">
+                                <rect key="frame" x="366" y="159" width="114" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="refresh auth" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tjQ-ps-eJn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="refreshAuthPressed:" target="XfG-lQ-9wD" id="NIp-ox-fBg"/>
                                 </connections>
                             </button>
                         </subviews>

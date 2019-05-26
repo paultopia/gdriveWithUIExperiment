@@ -49,8 +49,9 @@ struct MultipartUploadPart {
     let body: Data
     init(metadata: GDriveFileProperties) {
         headers = ["Content-Type": "application/json; charset=UTF-8"]
-        let encoder = JSONEncoder()
-        body = try! encoder.encode(metadata)
+        //let encoder = JSONEncoder()
+        //body = try! encoder.encode(metadata)
+        body = "{\"name\":\"testfile\",\"mimeType\":\"application/vnd.google-apps.document\"}".data(using: .utf8)!
     }
     
     init(media: URL, mimetype: String) {

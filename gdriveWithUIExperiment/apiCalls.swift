@@ -53,7 +53,9 @@ func getLastFileHeader() {
 //UNTESTED
 func saveRefreshedToken(_ tokenJSON: String) {
     let token = parseRefreshTokenJson(json: tokenJSON.data(using: .utf8)!)
+    print("old: \(accessToken.get()!)")
     accessToken.set(token.accessToken)
+    print("new: \(accessToken.get()!)")
 }
 
 // UNTESTED
