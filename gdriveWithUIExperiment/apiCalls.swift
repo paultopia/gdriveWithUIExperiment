@@ -66,8 +66,8 @@ func refreshAccess(){
     
 }
 
-func deleteFile(fileId: String){
-    let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileId)"
+func deleteFile(fileID: String){
+    let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)"
     let token = accessToken.get()!
     let query = URLQueryItem(name: "access_token", value: token)
     var urlComponents = URLComponents(string: endpoint)!
@@ -93,5 +93,36 @@ func deleteFile(fileId: String){
 }
 
 func deleteCurrentFile(){
-    deleteFile(fileId: hackishGlobalState.uploadedFileID!)
+    deleteFile(fileID: hackishGlobalState.uploadedFileID!)
+}
+
+// CURRENTLY THROWING 403 FOR INSUFFICIENT AUTHENTICATION SCOPES (even though it's in the app data folder and I have that scope...)
+func downloadCurrentFile(){
+    let fileID = hackishGlobalState.uploadedFileID!
+    let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)/export"
+    let token = accessToken.get()!
+    let authQuery = URLQueryItem(name: "access_token", value: token)
+    let mimeQuery = URLQueryItem(name: "mimeType", value: "text/plain")
+    var urlComponents = URLComponents(string: endpoint)!
+    urlComponents.queryItems = [authQuery, mimeQuery]
+    let address = urlComponents.url!
+    let session = URLSession.shared
+    let task = session.dataTask(with: address, completionHandler: {data, response, error in
+        if error != nil || data == nil {
+            print("Client error!")
+            return
+        }
+        
+        let resp = response as! HTTPURLResponse
+        guard (200...299).contains(resp.statusCode) else {
+            print("Server error: \(resp.statusCode)")
+            print(String(data: data!, encoding: .utf8)!)
+            print(response)
+            return
+        }
+        print("success!")
+        print(String(data: data!, encoding: .utf8)!)
+        print(response)
+    })
+    task.resume()
 }

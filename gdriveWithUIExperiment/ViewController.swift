@@ -30,10 +30,14 @@ class ViewController: NSViewController {
         getLastFileHeader()
     }
     
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+        deleteCurrentFile()
+    }
+    
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
         //testUploadFormat()
-        deleteCurrentFile()
+        downloadCurrentFile()
     }
     
     @IBOutlet var authTokenDirect: NSTextField!
