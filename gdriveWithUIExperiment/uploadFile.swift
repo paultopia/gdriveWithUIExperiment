@@ -16,18 +16,18 @@ import Cocoa
 
 struct GDriveFileProperties: Codable {
     //var parents: [String] = ["appDataFolder"]
-    var mimetype: String = "application/vnd.google-apps.document"
+    var mimeType: String = "application/vnd.google-apps.document"
     var name: String
     
     init(_ file: URL,
          //parents: [String]? = nil,
-         mimetype: String? = nil,
+         mimeType: String? = nil,
          name: String? = nil) {
         //if let p = parents {
         //    self.parents = p
         //}
-        if let m = mimetype {
-            self.mimetype = m
+        if let m = mimeType {
+            self.mimeType = m
         }
         if let n = name {
             self.name = n
@@ -49,9 +49,8 @@ struct MultipartUploadPart {
     let body: Data
     init(metadata: GDriveFileProperties) {
         headers = ["Content-Type": "application/json; charset=UTF-8"]
-        //let encoder = JSONEncoder()
-        //body = try! encoder.encode(metadata)
-        body = "{\"name\":\"testfile\",\"mimeType\":\"application/vnd.google-apps.document\"}".data(using: .utf8)!
+        let encoder = JSONEncoder()
+        body = try! encoder.encode(metadata)
     }
     
     init(media: URL, mimetype: String) {

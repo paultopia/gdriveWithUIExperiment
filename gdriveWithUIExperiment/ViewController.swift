@@ -41,8 +41,8 @@ class ViewController: NSViewController {
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        testInLocalEchoServer()
-        //downloadCurrentFile()
+        //testInLocalEchoServer()
+        downloadCurrentFile()
     }
     
     @IBOutlet var authTokenDirect: NSTextField!
