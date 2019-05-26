@@ -103,12 +103,23 @@ func deleteCurrentFile(){
 
 // CURRENTLY THROWING 403 and claiming it can only export google docs.  I'm suspecting this is because it's in the appdata folder?  (no, still isn't working even with nonappdata folder, and upload isn't in fact saying it's a google doc...)
 
+public func createTempPDFFile(contents: Data) -> String {
+    let fileManager = FileManager.default
+    let dest = fileManager.temporaryDirectory
+        .appendingPathComponent(UUID().uuidString)
+        .appendingPathExtension("pdf")
+    
+    try! contents.write(to: dest)
+    return dest.absoluteString
+}
+
+
 func downloadCurrentFile(){
     let fileID = hackishGlobalState.uploadedFileID!
     let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)/export"
     let token = accessToken.get()!
     let authQuery = URLQueryItem(name: "access_token", value: token)
-    let mimeQuery = URLQueryItem(name: "mimeType", value: "text/plain")
+    let mimeQuery = URLQueryItem(name: "mimeType", value: "application/pdf")
     var urlComponents = URLComponents(string: endpoint)!
     urlComponents.queryItems = [authQuery, mimeQuery]
     let address = urlComponents.url!
@@ -127,8 +138,9 @@ func downloadCurrentFile(){
             return
         }
         print("success!")
-        print(String(data: data!, encoding: .utf8)!)
-        print(response)
+        print("ABOUT TO PRINT DATA FILE")
+        let dest = createTempPDFFile(contents: data!)
+        print(dest)
     })
     task.resume()
 }

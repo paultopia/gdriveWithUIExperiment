@@ -4,16 +4,15 @@ Just an experiment in getting gdrive oauth to work in raw swift.  Partly because
 
 ## Current status
 
-Works.  Ugly.
+Works.  All oauth works, although it doesn't automatically go fetch a refresh token when the current one expires (you gotta hit a button for that).  Also, upload a word file as google docs works, and downloading the just-uploaded file as a pdf into a temp file works. 
 
-To be specific successfully going through oauth process with no library assistance beyond what's built into swift.  UI goes step by step, i.e. get a client code and put it into the first box, then click the first button to save it.  second button throws up an authorization request into safari and receives a temporary access code in response.  third button trades that access code in for a token.  all working.
+--------
 
-I stuck a box on the right to actually just enter an auth token received from earlier testing (and copy-pasted from print) but it doesn't seem to be doing much.  So probably ignore that. 
-
-I have, however, tested actual use of a token received in the same session, and it's working---the bottom middle test button currently sends a request for the metadata for the last created file in drive, and successfully receives a correct response.  So this thing is officially working.
+to actually use, put the client ID for an app with the appropriate scopes (see the function that kicks off the flow for what I'm using) then click the obvious button to authenticate.  It'll spawn a safari window to ask for permission.  Seems to successfully persist credentials in user defaults between builds.
 
 Next steps: write up as a tutorial, clean up all the hacks (like the step by step button pressing as opposed to just doing the whole oauth flow in a single action, error handling rather than forcing everything and crashing if it doesn't work, )
 
+--------
 
 ## notes
 
@@ -43,20 +42,31 @@ Then put your key into the nice spot on the application designated for that purp
 
 - Xcode is unlovely in the extreme. Random errors seem to crop up on the regular where some decision you made the last time you made the app stick around despite changing in the code/settings (for me in this process the most notable example was the custom uri not changing when I realized it needed dots). The solution generally is the menu incantation Product -> Clean Build Folder.  (Also, for some stupid reason, to actually get an executable to save somewhere in order to run it the menu incantation is Product -> Archive.  NOT any of the actual "build** options.  Which makes no sense whatsoever. Archive means build, build means some other kind of janky build that gives you no, you know, actual built artifact that you can use.**
 
-**sending files up to drive** (in progress, working notes being sketched here.)
+**uploading files** using multipart upload request.
 
-- multipart uploads are one option.  but implementing seems super complicated, and I don't really have a clue how to do it.  I started a stub for this and am working on building it out.  For future reference [one tutorial in swift 3](https://newfivefour.com/swift-form-data-multipart-upload-URLRequest.html), and [someone's gist](https://gist.github.com/nolanw/dff7cc5d5570b030d6ba385698348b7c), and [an old SO on the subject](https://stackoverflow.com/questions/29623187/upload-image-with-multipart-form-data-ios-in-swift) [and another SO on the subject](https://stackoverflow.com/questions/26162616/upload-image-with-parameters-in-swift/26163136#26163136). This seems to be [a spec for that shit](https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2)  The basic process seems to involve creating a boundary and passing it in a header (?) and then effectively constructing multiple request bodies on either side (?).  The google API also asks for the total size of the request, and I confess I'm not quite sure how to calculate that... like, add the file size to the size of a utf-8 encoded string with the rest of the body?! (But I guess the [httpBody](https://developer.apple.com/documentation/foundation/urlrequest/2011390-httpbody) of a urlrequest is just a `Data` so I could just grab the size of the whole thing right before sending?? )
+Here are some resources:
 
-after reading [this SO](https://stackoverflow.com/questions/611906/http-post-with-url-query-parameters-good-idea-or-not), I guess when google asks for a query parameter in a post request you just mush it into the string like a get request?  OKAY.... 
+- [one tutorial in swift 3](https://newfivefour.com/swift-form-data-multipart-upload-URLRequest.html)
 
-- the resumable upload doesn't seem to demand multipart uploads, so it's a bit less complicated... may switch to that.
+- [someone's gist](https://gist.github.com/nolanw/dff7cc5d5570b030d6ba385698348b7c)
+
+- [an old SO on the subject](https://stackoverflow.com/questions/29623187/upload-image-with-multipart-form-data-ios-in-swift) 
+
+- [and another SO on the subject](https://stackoverflow.com/questions/26162616/upload-image-with-parameters-in-swift/26163136#26163136). 
 
 
+After reading [this SO](https://stackoverflow.com/questions/611906/http-post-with-url-query-parameters-good-idea-or-not), I guess when google asks for a query parameter in a post request you just mush it into the string like a get request?  OKAY.... seems to work, not sure why, but ok. 
 
+- Useful thing: swift will take care of adding the content-length header that google demands. So that's useful.
 
-**apparently swift doesn't let you set authentication headers directly?!!?**  I may pass it in the query string, since google's api lets one do so if one chooses. Instead, there's some terrible indirect monstrosity using delegates responding to challenges and shit. and apparently that means you have to use a class?!  and add all sorts of terrible object-oriented garbage?!  refs: 
+IDIOTIC thing: swift  doesn't let you set authentication headers directly?!!?  So, no clue how to set the standard bearer token authentication for this API in a header---it's really flat-out moronic.  The docs say to do a bunch of crazy stuff with classes and delegates to respond to an "[authentication challenge](https://developer.apple.com/documentation/foundation/url_loading_system/handling_an_authentication_challenge)"  Which I guess is a [recognized method of authenticating](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) except... wait for it... **swift doesn't support this kind of authentication!!** 
 
-- https://developer.apple.com/documentation/foundation/url_loading_system/handling_an_authentication_challenge 
+That is, at least as of the end of 2017 [URLSession doesn't support bearer challenges](https://forums.developer.apple.com/thread/92429) ([seems to still be true judging from list of methods supported in docs](https://developer.apple.com/documentation/foundation/urlprotectionspace/nsurlprotectionspace_authentication_method_constants)).  Despite the fact that this is in the [oauth2 spec](https://tools.ietf.org/html/rfc6750#section-3)!!!   
+
+Fortunately, google's API is kind enough to just let you pass the token in the query string instead of using a header.  So I'm just doing that.  Also, seriously considering dropping down to a low-level library like in objective-c, or even c, or using rust or something, that will actually let me SET THE DAMN HEADERS MYSELF at some point.  It's maddening that apple won't let you set authentication headers.
+
+Bizarrely, even though the swift docs [specifically say they won't let you set reserved headers](https://developer.apple.com/documentation/foundation/urlrequest/2011522-addvalue) and [specifically say the authorization header is reserved](https://developer.apple.com/documentation/foundation/nsurlrequest#1776617), well,  [at least one oauth library does it anyway](https://github.com/p2/OAuth2/blob/26e6c2b0bf755986f18a98af1c8a3c2d5f511ee5/Sources/Base/extensions.swift#L99), so I guess it does work, just not reliably??!!
+
 
 - https://forums.developer.apple.com/thread/68809
 
@@ -68,7 +78,6 @@ after reading [this SO](https://stackoverflow.com/questions/611906/http-post-wit
 
 - https://stackoverflow.com/questions/46852680/urlsession-doesnt-pass-authorization-key-in-header-swift-4
 
-but really I think I'll just sent it in the URL.  How moronic!!
 
 
 
