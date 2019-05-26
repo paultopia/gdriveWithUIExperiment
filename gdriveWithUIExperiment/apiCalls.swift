@@ -66,7 +66,7 @@ func refreshAccess(){
     
 }
 
-// SAYS IT WORKS BUT DOESN'T.  (forgot to change verb?)
+
 func deleteFile(fileID: String){
     let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)"
     let token = accessToken.get()!
@@ -74,8 +74,10 @@ func deleteFile(fileID: String){
     var urlComponents = URLComponents(string: endpoint)!
     urlComponents.queryItems = [query]
     let address = urlComponents.url!
+    var request = URLRequest(url: address)
+    request.httpMethod = "DELETE"
     let session = URLSession.shared
-    let task = session.dataTask(with: address, completionHandler: {data, response, error in
+    let task = session.dataTask(with: request, completionHandler: {data, response, error in
         if error != nil || data == nil {
             print("Client error!")
             return
