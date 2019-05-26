@@ -39,7 +39,7 @@ func testInLocalEchoServer(){
         let result = dialog.url!
         // NOW UPLOAD IT HERE.
         let request = MultipartRelatedUpload(result)
-        request.post(callback: {print($0)}, testing: true)
+        request.post(callback: {print(String(data: $0, encoding: .utf8)!)}, testing: true)
         
     } else {
         // User clicked on "Cancel"

@@ -94,6 +94,15 @@ struct MultipartRelatedUpload {
         return String(repeating: "\r\n", count: count)
     }
     
+    static func processUploadedDocument(incoming: Data){
+        let response = parseUploadResponse(json: incoming)
+        let id = response.id
+        print(id)
+        print(response.mimeType)
+        print(response.name)
+        hackishGlobalState.uploadedFileID = id
+    }
+    
     
     init(_ wordFile: URL){
         let bdry = UUID().uuidString
@@ -167,7 +176,7 @@ struct MultipartRelatedUpload {
         return request
     }
     
-    func post(callback:@escaping (String) -> Void, testing: Bool = false){
+    func post(callback:@escaping (Data) -> Void, testing: Bool = false){
         let session = URLSession.shared
         let request = composeRequest(testing: testing)
         let task = session.dataTask(with: request, completionHandler: {data, response, error in
@@ -184,7 +193,7 @@ struct MultipartRelatedUpload {
                 print(data)
                 return
             }
-            callback(String(data: data!, encoding: .utf8)!)
+            callback(data!)
         })
         task.resume()
     }
@@ -212,7 +221,7 @@ func uploadWordDocument(){
         let result = dialog.url!
         // NOW UPLOAD IT HERE.
         let request = MultipartRelatedUpload(result)
-        request.post(callback: {print($0)})
+        request.post(callback: MultipartRelatedUpload.processUploadedDocument)
         
     } else {
         // User clicked on "Cancel"

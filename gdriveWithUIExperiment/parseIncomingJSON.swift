@@ -50,3 +50,16 @@ public func parseRefreshTokenJson(json: Data) -> GoogleRefreshedAuthToken {
     let authToken = try! decoder.decode(GoogleRefreshedAuthToken.self, from: json)
     return authToken
 }
+
+public struct UploadResponse: Codable {
+    var kind: String
+    var id: String
+    var name: String
+    var mimeType: String
+}
+
+public func parseUploadResponse(json: Data) -> UploadResponse {
+    let decoder = JSONDecoder()
+    let uploadResponse = try! decoder.decode(UploadResponse.self, from: json)
+    return uploadResponse
+}

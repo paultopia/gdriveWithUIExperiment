@@ -90,5 +90,8 @@ func deleteFile(fileId: String){
         print("successfully deleted file!")
     })
     task.resume()
-    
+}
+
+func deleteCurrentFile(){
+    deleteFile(fileId: hackishGlobalState.uploadedFileID!)
 }
