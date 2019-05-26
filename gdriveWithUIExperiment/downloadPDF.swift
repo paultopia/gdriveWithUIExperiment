@@ -10,7 +10,10 @@ import Foundation
 
 func makeDestinationURL() -> URL {
     let inURL = hackishGlobalState.chosenFile!
-    let outURL = inURL.deletingPathExtension().appendingPathExtension("pdf")
+    let downloadsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
+    let filename = inURL.deletingPathExtension().appendingPathExtension("pdf").lastPathComponent
+    print(filename)
+    let outURL = downloadsDirectory.appendingPathComponent(filename, isDirectory: false)
     return outURL
 }
 

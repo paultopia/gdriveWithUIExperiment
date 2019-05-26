@@ -31,6 +31,11 @@ class ViewController: NSViewController {
         //basicLocalhostCall()
     }
     
+    @IBAction func downloadButtonPressed(_ sender: Any) {
+        downloadCurrentFile()
+    }
+    
+    
     @IBAction func lastFileButtonPressed(_ sender: Any) {
         getLastFileHeader()
     }
@@ -42,7 +47,7 @@ class ViewController: NSViewController {
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
         //testInLocalEchoServer()
-        downloadCurrentFile()
+        
     }
     
     @IBOutlet var authTokenDirect: NSTextField!
