@@ -20,7 +20,7 @@ public func askForAuthorization(key: String){ // returns the entire freaking web
 }
 
 func saveTokens(_ tokenJSON: String) {
-    let tokens = parseJson(json: tokenJSON.data(using: .utf8)!)
+    let tokens = parseAuthTokenJson(json: tokenJSON.data(using: .utf8)!)
     accessToken.set(tokens.accessToken)
     refreshToken.set(tokens.refreshToken)
     print("got access token:")
@@ -48,4 +48,47 @@ func getLastFileHeader() {
                    "orderBy": "createdTime desc",
                    "pageSize": "1"]
     fetch(url: endpoint, queries: queries, callback: {print($0)})
+}
+
+//UNTESTED
+func saveRefreshedToken(_ tokenJSON: String) {
+    let token = parseRefreshTokenJson(json: tokenJSON.data(using: .utf8)!)
+    accessToken.set(token.accessToken)
+}
+
+// UNTESTED
+func refreshAccess(){
+    let endpoint = "https://www.googleapis.com/oauth2/v4/token"
+    let queries = ["refresh_token": refreshToken.get()!,
+                   "client_id": clientKey.get()!,
+                   "grant_type": "refresh_token"]
+    post(url: endpoint, queries: queries, callback: saveRefreshedToken)
+    
+}
+
+func deleteFile(fileId: String){
+    let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileId)"
+    let token = accessToken.get()!
+    let query = URLQueryItem(name: "access_token", value: token)
+    var urlComponents = URLComponents(string: endpoint)!
+    urlComponents.queryItems = [query]
+    let address = urlComponents.url!
+    let session = URLSession.shared
+    let task = session.dataTask(with: address, completionHandler: {data, response, error in
+        if error != nil || data == nil {
+            print("Client error!")
+            return
+        }
+        
+        let resp = response as! HTTPURLResponse
+        guard (200...299).contains(resp.statusCode) else {
+            print("Server error: \(resp.statusCode)")
+            print(String(data: data!, encoding: .utf8)!)
+            print(response)
+            return
+        }
+        print("successfully deleted file!")
+    })
+    task.resume()
+    
 }

@@ -32,7 +32,8 @@ class ViewController: NSViewController {
     
     // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
     @IBAction func testBot(_ sender: Any) {
-        testUploadFormat()
+        //testUploadFormat()
+        deleteFile(fileId: "1OC-qo4XqvgGYrBd3bmcJOORswCAb_XSiOdv6s0mOAL8l-bWfKg")
     }
     
     @IBOutlet var authTokenDirect: NSTextField!
