@@ -13,6 +13,7 @@ import Foundation
 public class HackishGlobalState {
     public var tempFile: URL? = nil
     public var uploadedFileID: String? = nil
+    public var chosenFile: URL? = nil
 }
 
 public var hackishGlobalState = HackishGlobalState()

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F72EF49F2299BD7800489AD7 /* debuggingCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72EF49E2299BD7800489AD7 /* debuggingCode.swift */; };
+		F72EF4A1229B16D700489AD7 /* downloadPDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72EF4A0229B16D700489AD7 /* downloadPDF.swift */; };
 		F77C2578228F17E7005EE7CF /* uploadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77C2577228F17E7005EE7CF /* uploadFile.swift */; };
 		F7BFC156228C617E00D884F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC155228C617E00D884F9 /* AppDelegate.swift */; };
 		F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BFC157228C617E00D884F9 /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		F72EF49E2299BD7800489AD7 /* debuggingCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = debuggingCode.swift; sourceTree = "<group>"; };
+		F72EF4A0229B16D700489AD7 /* downloadPDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = downloadPDF.swift; sourceTree = "<group>"; };
 		F77C2577228F17E7005EE7CF /* uploadFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uploadFile.swift; sourceTree = "<group>"; };
 		F7BFC152228C617E00D884F9 /* gdriveWithUIExperiment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gdriveWithUIExperiment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BFC155228C617E00D884F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				F7BFC167228C8A5200D884F9 /* networkCalls.swift */,
 				F7BFC169228CA2FE00D884F9 /* apiCalls.swift */,
 				F77C2577228F17E7005EE7CF /* uploadFile.swift */,
+				F72EF4A0229B16D700489AD7 /* downloadPDF.swift */,
 				F7BFC16B228CA9ED00D884F9 /* temporaryHTMLFile.swift */,
 				F7BFC16D228CB5F800D884F9 /* state.swift */,
 				F7BFC157228C617E00D884F9 /* ViewController.swift */,
@@ -167,6 +170,7 @@
 			files = (
 				F7BFC16C228CA9ED00D884F9 /* temporaryHTMLFile.swift in Sources */,
 				F7BFC16E228CB5F800D884F9 /* state.swift in Sources */,
+				F72EF4A1229B16D700489AD7 /* downloadPDF.swift in Sources */,
 				F7BFC166228C738000D884F9 /* credentialStorage.swift in Sources */,
 				F72EF49F2299BD7800489AD7 /* debuggingCode.swift in Sources */,
 				F7BFC158228C617E00D884F9 /* ViewController.swift in Sources */,

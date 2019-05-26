@@ -208,12 +208,13 @@ func uploadWordDocument(){
     dialog.canChooseDirectories = false
     dialog.canCreateDirectories = false
     dialog.allowsMultipleSelection = false
-    dialog.allowedFileTypes = ["docx"]
+    dialog.allowedFileTypes = ["docx", "doc"]
     
     if (dialog.runModal() == NSApplication.ModalResponse.OK) {
         
         let result = dialog.url!
         // NOW UPLOAD IT HERE.
+        hackishGlobalState.chosenFile = result
         let request = MultipartRelatedUpload(result)
         request.post(callback: MultipartRelatedUpload.processUploadedDocument)
         
