@@ -15,24 +15,24 @@ import Cocoa
 // IN PROGRESS
 
 struct GDriveFileProperties: Codable {
-    var parents: [String] = ["appDataFolder"]
+    //var parents: [String] = ["appDataFolder"]
     var mimetype: String = "application/vnd.google-apps.document"
     var name: String
     
     init(_ file: URL,
-         parents: [String]? = nil,
+         //parents: [String]? = nil,
          mimetype: String? = nil,
          name: String? = nil) {
-        if let p = parents {
-            self.parents = p
-        }
+        //if let p = parents {
+        //    self.parents = p
+        //}
         if let m = mimetype {
             self.mimetype = m
         }
         if let n = name {
             self.name = n
         } else {
-            self.name = file.lastPathComponent
+            self.name = file.deletingPathExtension().lastPathComponent
         }
     }
     // FOR CHECKING FORMAT
@@ -199,12 +199,6 @@ struct MultipartRelatedUpload {
     }
 }
 
-
-
-// this might be all wrong and I should be using an upload task?!
-// https://developer.apple.com/documentation/foundation/urlsession/1411550-uploadtask
-// but not sure how much control it gives you, and datatask also lets you add a body.
-// https://developer.apple.com/documentation/foundation/urlsessiondatatask
 
 func uploadWordDocument(){
     let dialog = NSOpenPanel()

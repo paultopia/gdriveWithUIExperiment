@@ -66,6 +66,7 @@ func refreshAccess(){
     
 }
 
+// SAYS IT WORKS BUT DOESN'T.  (forgot to change verb?)
 func deleteFile(fileID: String){
     let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)"
     let token = accessToken.get()!
@@ -96,7 +97,7 @@ func deleteCurrentFile(){
     deleteFile(fileID: hackishGlobalState.uploadedFileID!)
 }
 
-// CURRENTLY THROWING 403 and claiming it can only export google docs.  I'm suspecting this is because it's in the appdata folder?
+// CURRENTLY THROWING 403 and claiming it can only export google docs.  I'm suspecting this is because it's in the appdata folder?  (no, still isn't working even with nonappdata folder, and upload isn't in fact saying it's a google doc...)
 
 func downloadCurrentFile(){
     let fileID = hackishGlobalState.uploadedFileID!
