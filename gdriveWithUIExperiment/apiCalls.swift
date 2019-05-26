@@ -15,7 +15,7 @@ public func askForAuthorization(key: String){ // returns the entire freaking web
     let queries = ["client_id": key,
                    "redirect_uri": "io.gowder.experiment:/oauth",
                    "response_type": "code",
-                   "scope": "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata"]
+                   "scope": "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file"]
     fetch(url: endpoint, queries: queries, callback: displayReceivedPage)
 }
 
@@ -96,7 +96,8 @@ func deleteCurrentFile(){
     deleteFile(fileID: hackishGlobalState.uploadedFileID!)
 }
 
-// CURRENTLY THROWING 403 FOR INSUFFICIENT AUTHENTICATION SCOPES (even though it's in the app data folder and I have that scope...)
+// CURRENTLY THROWING 403 and claiming it can only export google docs.  I'm suspecting this is because it's in the appdata folder?
+
 func downloadCurrentFile(){
     let fileID = hackishGlobalState.uploadedFileID!
     let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)/export"
