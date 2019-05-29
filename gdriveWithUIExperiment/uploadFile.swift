@@ -6,13 +6,9 @@
 //  Copyright © 2019 Paul Gowder. All rights reserved.
 //
 
-// DOES NOT WORK, NOT SURE WHY --- just gets a 400 error from the server.  Probably the request is coming out malformed.
-
 import Cocoa
 
-
-
-// IN PROGRESS
+// tweaking to clean up code a bit; current version untested, previous version (commit 5757f74c25278357f94767f0ec3e06307daf535f) works. 
 
 struct GDriveFileProperties: Codable {
     //var parents: [String] = ["appDataFolder"]
@@ -82,7 +78,12 @@ extension Data {
 struct MultipartRelatedUpload {
     static var endpoint = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
     var headers: [String: String]
-    var boundary: String
+    lazy var boundary: String = {
+        return UUID().uuidString
+    }()
+    lazy var headers: [String:String] = {
+        return ["Content-Type": "multipart/related; boundary=\(boundary)"]
+    }()
     var metadataPart: MultipartUploadPart
     var mediaPart: MultipartUploadPart
     var mimetype: String = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -103,11 +104,12 @@ struct MultipartRelatedUpload {
         hackishGlobalState.uploadedFileID = id
     }
     
+    func addBoundaryString(final: Bool = false){
+        final ? "--\(boundary)--" : "--\(boundary)"
+    }
+    
     
     init(_ wordFile: URL){
-        let bdry = UUID().uuidString
-        boundary = "--\(bdry)"
-        self.headers = ["Content-Type": "multipart/related; boundary=\(bdry)"]
         let metadata = GDriveFileProperties(wordFile)
         metadataPart = MultipartUploadPart(metadata: metadata)
         mediaPart = MultipartUploadPart(media: wordFile, mimetype: self.mimetype)
@@ -115,9 +117,6 @@ struct MultipartRelatedUpload {
     
     // FOR TESTING
     init(testString: String){
-        let bdry = UUID().uuidString
-        boundary = "--\(bdry)"
-        self.headers = ["Content-Type": "multipart/related; boundary=\(bdry)"]
         let metadata = GDriveFileProperties(testString: "This is test file properties, should not print")
         metadataPart = MultipartUploadPart(metadata: metadata)
         mediaPart = MultipartUploadPart(fakeMedia: testString, testMimetype: "this is a fake mimetype for the file")
@@ -147,21 +146,20 @@ struct MultipartRelatedUpload {
 
     func buildBody() -> Data {
         var body = Data()
-        body.append(boundary)
+        body.append(addBoundaryString())
         body.append(MultipartRelatedUpload.lineBreak())
         body.append(metadataPart.printHeader())
         body.append(MultipartRelatedUpload.lineBreak(2))
         body.append(metadataPart.body)
         body.append(MultipartRelatedUpload.lineBreak())
         // BEGIN PART 2: MEDIA
-        body.append(boundary)
+        body.append(addBoundaryString())
         body.append(MultipartRelatedUpload.lineBreak())
         body.append(mediaPart.printHeader())
         body.append(MultipartRelatedUpload.lineBreak(2))
         body.append(mediaPart.body)
         body.append(MultipartRelatedUpload.lineBreak())
-        body.append(boundary)
-        body.append("--")
+        body.append(addBoundaryString(final: true))
         return body
     }
     
