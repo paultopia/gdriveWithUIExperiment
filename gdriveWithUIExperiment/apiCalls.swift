@@ -142,8 +142,8 @@ public func refresherCallbackFactory(request: URLRequest, callback:@escaping (Da
         })
         task.resume()
         }
-        return tokenTaker
-    }  
+    return tokenTaker
+}  
 
 // should refresh the token and try the original call again.
 public func retryCall(request: URLRequest, callback:@escaping (Data) -> Void){
