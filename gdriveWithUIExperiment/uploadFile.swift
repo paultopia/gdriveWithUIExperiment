@@ -185,11 +185,17 @@ struct MultipartRelatedUpload {
             
             let resp = response as! HTTPURLResponse
             guard (200...299).contains(resp.statusCode) else {
-                print("Server error: \(resp.statusCode)")
-                print(error)
-                print(response)
-                print(data)
-                return
+                if resp.statusCode == 401 {
+                    print("401 error. will try to refresh token")
+                    retryCall(request: request, callback: callback)
+                    return
+                } else {
+                    print("Server error: \(resp.statusCode)")
+                    print(error)
+                    print(response)
+                    print(data)
+                    return
+                }
             }
             callback(data!)
         })

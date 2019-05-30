@@ -50,22 +50,11 @@ func getLastFileHeader() {
     fetch(url: endpoint, queries: queries, callback: {print($0)})
 }
 
-//UNTESTED
 func saveRefreshedToken(_ tokenJSON: String) {
     let token = parseRefreshTokenJson(json: tokenJSON.data(using: .utf8)!)
     print("old: \(accessToken.get()!)")
     accessToken.set(token.accessToken)
     print("new: \(accessToken.get()!)")
-}
-
-// UNTESTED
-func refreshAccess(){
-    let endpoint = "https://www.googleapis.com/oauth2/v4/token"
-    let queries = ["refresh_token": refreshToken.get()!,
-                   "client_id": clientKey.get()!,
-                   "grant_type": "refresh_token"]
-    post(url: endpoint, queries: queries, callback: saveRefreshedToken)
-    
 }
 
 
@@ -101,7 +90,64 @@ func deleteCurrentFile(){
     deleteFile(fileID: hackishGlobalState.uploadedFileID!)
 }
 
-// CURRENTLY THROWING 403 and claiming it can only export google docs.  I'm suspecting this is because it's in the appdata folder?  (no, still isn't working even with nonappdata folder, and upload isn't in fact saying it's a google doc...)
 
+
+// EVERYTHING BELOW HERE IS NEW AND UNTESTED helper for auto-retry
+func refreshAccess(callback:@escaping (String) -> Void){
+    let endpoint = "https://www.googleapis.com/oauth2/v4/token"
+    let queries = ["refresh_token": refreshToken.get()!,
+                   "client_id": clientKey.get()!,
+                   "grant_type": "refresh_token"]
+    post(url: endpoint, queries: queries, callback: callback)
+}
+
+func refreshAccess(){
+    refreshAccess(callback: saveRefreshedToken)
+}
+
+public func refresherCallbackFactory(request: URLRequest, callback:@escaping (Data) -> Void) -> (String) -> Void {
+    func tokenTaker(_ tokenJSON: String) {
+        let tjParsed = parseRefreshTokenJson(json: tokenJSON.data(using: .utf8)!)
+        let token = tjParsed.accessToken
+        print("old: \(accessToken.get()!)")
+        accessToken.set(token)
+        print("new: \(accessToken.get()!)")
+        var url = request.url!
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        // just redo the query items from scratch rather than searching through to change it. 
+        // this is lazy but I should test it before trying anything fancier. 
+        components.queryItems = [
+            URLQueryItem(name: "uploadType", value: "multipart"),
+            URLQueryItem(name: "access_token", value: token)
+        ]
+        url = components.url!
+        request.url = url
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {data, response, error in
+            if error != nil || data == nil {
+                print("Client error!")
+                return
+            }
+            let resp = response as! HTTPURLResponse
+            guard (200...299).contains(resp.statusCode) else {
+                print("Server error: \(resp.statusCode)")
+                print(error)
+                print(response)
+                print(data)
+                return
+            }
+            callback(data!)
+        })
+        task.resume()
+        }
+        return tokenTaker
+    }  
+
+// should refresh the token and try the original call again.
+public func retryCall(request: URLRequest, callback:@escaping (Data) -> Void){
+    newPostFunction = refresherCallbackFactory(request: request, callback: callback)
+    refreshAccess(callback: newPostFunction)
+}
 
 
