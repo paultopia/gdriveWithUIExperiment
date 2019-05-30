@@ -32,6 +32,7 @@ public func createTempPDFFile(contents: Data) -> URL {
     return dest
 }
 
+// CRASHES WITH RUNTIME ERROR IF FILE ALREADY EXISTS.  NEED TO HANDLE THIS BEHAVIOR.
 func downloadCurrentFile(){
     let fileID = hackishGlobalState.uploadedFileID!
     let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)/export"

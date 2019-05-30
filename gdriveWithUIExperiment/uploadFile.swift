@@ -8,8 +8,6 @@
 
 import Cocoa
 
-// tweaking to clean up code a bit; current version untested, previous version (commit 5757f74c25278357f94767f0ec3e06307daf535f) works. 
-
 struct GDriveFileProperties: Codable {
     //var parents: [String] = ["appDataFolder"]
     var mimeType: String = "application/vnd.google-apps.document"
