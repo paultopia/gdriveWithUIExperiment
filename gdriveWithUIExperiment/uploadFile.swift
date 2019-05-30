@@ -77,7 +77,6 @@ extension Data {
 
 struct MultipartRelatedUpload {
     static var endpoint = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
-    var headers: [String: String]
     lazy var boundary: String = {
         return UUID().uuidString
     }()
@@ -104,8 +103,8 @@ struct MultipartRelatedUpload {
         hackishGlobalState.uploadedFileID = id
     }
     
-    func addBoundaryString(final: Bool = false){
-        final ? "--\(boundary)--" : "--\(boundary)"
+    mutating func addBoundaryString(final: Bool = false) -> String {
+        return final ? "--\(boundary)--" : "--\(boundary)"
     }
     
     
@@ -144,7 +143,7 @@ struct MultipartRelatedUpload {
     }
     
 
-    func buildBody() -> Data {
+    mutating func buildBody() -> Data {
         var body = Data()
         body.append(addBoundaryString())
         body.append(MultipartRelatedUpload.lineBreak())
@@ -163,7 +162,7 @@ struct MultipartRelatedUpload {
         return body
     }
     
-    func composeRequest(testing: Bool = false) -> URLRequest {
+    mutating func composeRequest(testing: Bool = false) -> URLRequest {
         
         var request = testing ? URLRequest(url: URL(string: "http://localhost:8888/")!) : URLRequest(url: makeEndpoint())
         request.httpMethod = "POST"
@@ -174,7 +173,7 @@ struct MultipartRelatedUpload {
         return request
     }
     
-    func post(callback:@escaping (Data) -> Void, testing: Bool = false){
+    mutating func post(callback:@escaping (Data) -> Void, testing: Bool = false){
         let session = URLSession.shared
         let request = composeRequest(testing: testing)
         let task = session.dataTask(with: request, completionHandler: {data, response, error in
@@ -219,7 +218,7 @@ func uploadWordDocument(){
         let result = dialog.url!
         // NOW UPLOAD IT HERE.
         hackishGlobalState.chosenFile = result
-        let request = MultipartRelatedUpload(result)
+        var request = MultipartRelatedUpload(result)
         request.post(callback: MultipartRelatedUpload.processUploadedDocument)
         
     } else {

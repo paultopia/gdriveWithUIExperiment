@@ -113,7 +113,8 @@ public func refresherCallbackFactory(request: URLRequest, callback:@escaping (Da
         accessToken.set(token)
         print("new: \(accessToken.get()!)")
         var url = request.url!
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        var newRequest = request
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         // just redo the query items from scratch rather than searching through to change it. 
         // this is lazy but I should test it before trying anything fancier. 
         components.queryItems = [
@@ -121,10 +122,10 @@ public func refresherCallbackFactory(request: URLRequest, callback:@escaping (Da
             URLQueryItem(name: "access_token", value: token)
         ]
         url = components.url!
-        request.url = url
+        newRequest.url = url
         
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: {data, response, error in
+        let task = session.dataTask(with: newRequest, completionHandler: {data, response, error in
             if error != nil || data == nil {
                 print("Client error!")
                 return
@@ -146,7 +147,7 @@ public func refresherCallbackFactory(request: URLRequest, callback:@escaping (Da
 
 // should refresh the token and try the original call again.
 public func retryCall(request: URLRequest, callback:@escaping (Data) -> Void){
-    newPostFunction = refresherCallbackFactory(request: request, callback: callback)
+    let newPostFunction = refresherCallbackFactory(request: request, callback: callback)
     refreshAccess(callback: newPostFunction)
 }
 
