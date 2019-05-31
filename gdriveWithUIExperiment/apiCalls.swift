@@ -90,9 +90,6 @@ func deleteCurrentFile(){
     deleteFile(fileID: hackishGlobalState.uploadedFileID!)
 }
 
-
-
-// EVERYTHING BELOW HERE IS NEW AND UNTESTED helper for auto-retry
 func refreshAccess(callback:@escaping (String) -> Void){
     let endpoint = "https://www.googleapis.com/oauth2/v4/token"
     let queries = ["refresh_token": refreshToken.get()!,
