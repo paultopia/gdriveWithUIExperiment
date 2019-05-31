@@ -9,17 +9,27 @@
 import Foundation
 
 func makeDestinationURL() -> URL {
+    let fileManager = FileManager.default
     let inURL = hackishGlobalState.chosenFile!
     let downloadsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
-    let filename = inURL.deletingPathExtension().appendingPathExtension("pdf").lastPathComponent
+    var filename = inURL.deletingPathExtension().appendingPathExtension("pdf").lastPathComponent
     print(filename)
-    let outURL = downloadsDirectory.appendingPathComponent(filename, isDirectory: false)
+    var outURL = downloadsDirectory.appendingPathComponent(filename, isDirectory: false)
+    if fileManager.fileExists(atPath: outURL.path) {
+        print("file exists!  adding UUID.")
+        filename = outURL.deletingPathExtension().lastPathComponent + "-\(UUID().uuidString).pdf"
+        outURL = downloadsDirectory.appendingPathComponent(filename, isDirectory: false)
+    }
     return outURL
 }
 
 func copyTempPDF(tempFile: URL, destination: URL){
     let fileManager = FileManager.default
-    try! fileManager.copyItem(at: tempFile, to: destination)
+    do {
+    try fileManager.copyItem(at: tempFile, to: destination)
+    } catch {
+        print("file error: \(error)")
+    }
 }
 
 public func createTempPDFFile(contents: Data) -> URL {
@@ -27,13 +37,11 @@ public func createTempPDFFile(contents: Data) -> URL {
     let dest = fileManager.temporaryDirectory
         .appendingPathComponent(UUID().uuidString)
         .appendingPathExtension("pdf")
-    
     try! contents.write(to: dest)
     return dest
 }
 
-// CRASHES WITH RUNTIME ERROR IF FILE ALREADY EXISTS.  NEED TO HANDLE THIS BEHAVIOR.
-func downloadCurrentFile(){
+func downloadCurrentFile(deleteOnServer: Bool = true){
     let fileID = hackishGlobalState.uploadedFileID!
     let endpoint = "https://www.googleapis.com/drive/v3/files/\(fileID)/export"
     let token = accessToken.get()!
@@ -62,6 +70,11 @@ func downloadCurrentFile(){
         let dest = makeDestinationURL()
         copyTempPDF(tempFile: temp, destination: dest)
         print(dest.absoluteString)
+        if deleteOnServer {
+            print("deleting file on server")
+            deleteFile(fileID: fileID)
+        }
+        
     })
     task.resume()
 }
