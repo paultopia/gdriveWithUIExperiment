@@ -99,6 +99,8 @@ struct MultipartRelatedUpload {
         print(response.mimeType)
         print(response.name)
         hackishGlobalState.uploadedFileID = id
+        // adding auto-download
+        downloadCurrentFile()
     }
     
     mutating func addBoundaryString(final: Bool = false) -> String {

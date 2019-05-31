@@ -31,30 +31,11 @@ class ViewController: NSViewController {
         //basicLocalhostCall()
     }
     
-    @IBAction func downloadButtonPressed(_ sender: Any) {
-        downloadCurrentFile()
-    }
-    
     
     @IBAction func lastFileButtonPressed(_ sender: Any) {
         getLastFileHeader()
     }
     
-    @IBAction func deleteButtonPressed(_ sender: Any) {
-        deleteCurrentFile()
-    }
-    
-    // THIS IS THE GENERAL BUTTON TO TEST WHATEVER DISCRETE THING I'M WORKING ON
-    @IBAction func testBot(_ sender: Any) {
-        //testInLocalEchoServer()
-        
-    }
-    
-    @IBOutlet var authTokenDirect: NSTextField!
-    
-    @IBAction func authTokenDirectAdder(_ sender: Any) {
-        accessToken.set(authTokenDirect.stringValue)
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
