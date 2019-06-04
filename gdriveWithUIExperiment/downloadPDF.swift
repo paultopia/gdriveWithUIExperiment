@@ -6,6 +6,8 @@
 //  Copyright © 2019 Paul Gowder. All rights reserved.
 //
 
+// if you send a second file before the first is done, they both get converted but they end up with the name of the second---need coordination for this.
+
 import Foundation
 
 func makeDestinationURL() -> URL {
